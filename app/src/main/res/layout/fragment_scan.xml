@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+   <cn.bingoogolapple.qrcode.zbar.ZBarView
+       android:id="@+id/qrZBar"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:qrcv_animTime="1000"
+       app:qrcv_borderColor="@android:color/white"
+       app:qrcv_borderSize="0.5dp"
+       app:qrcv_cornerColor="@color/bot_text"
+       app:qrcv_cornerLength="20dp"
+       app:qrcv_cornerSize="5dp"
+       app:qrcv_isShowDefaultScanLineDrawable="true"
+       app:qrcv_maskColor="#33FFFFFF"
+       app:qrcv_rectWidth="250dp"
+       app:qrcv_scanLineColor="@color/bot_text"
+       app:qrcv_topOffset="170dp"/>
+
+    <TextView
+        android:layout_marginTop="450dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="二维码放入框内，自动扫描"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <include layout="@layout/layout_universal_title"/>
+</RelativeLayout>
