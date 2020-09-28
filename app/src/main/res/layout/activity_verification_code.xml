@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 ver:box="6"
+                ver:inputType="number"
                 ver:child_h_padding="10dp" />
         </RelativeLayout>
 

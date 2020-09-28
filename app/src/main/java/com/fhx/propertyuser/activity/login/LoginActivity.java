@@ -2,25 +2,30 @@ package com.fhx.propertyuser.activity.login;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.fhx.propertyuser.MainActivity;
 import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.utils.CutToUtils;
+import com.fhx.propertyuser.utils.DateAndTimeDialog;
 
 /**
  * 登录页面
  */
-public class LoginActivity  extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll_user, ll_password;
     private ImageView image_user, image_password, image_user_del, image_password_del;
-    private TextView tv_forget,tv_register,tv_code_login,tv_login;
+    private TextView tv_forget, tv_register, tv_code_login, tv_login;
     private EditText edit_password, edit_user;
 
     @Override
@@ -91,11 +96,10 @@ public class LoginActivity  extends BaseActivity implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length()>0){
+                if (s.length() > 0) {
                     image_user_del.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     image_user_del.setVisibility(View.GONE);
-
                 }
             }
         });
@@ -112,9 +116,9 @@ public class LoginActivity  extends BaseActivity implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length()>0){
+                if (s.length() > 0) {
                     image_password_del.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     image_password_del.setVisibility(View.GONE);
                 }
             }
@@ -125,6 +129,9 @@ public class LoginActivity  extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
+//                DateAndTimeDialog dateAndTimeDialog = new DateAndTimeDialog();
+//                dateAndTimeDialog.show(getSupportFragmentManager(),"date");
+
                 finish();
                 CutToUtils.getInstance().JumpTo(LoginActivity.this, MainActivity.class);
                 break;
@@ -135,13 +142,13 @@ public class LoginActivity  extends BaseActivity implements View.OnClickListener
                 edit_password.setText("");
                 break;
             case R.id.tv_code_login:
-                CutToUtils.getInstance().JumpToOne(LoginActivity.this,RegisterActivity.class,"codeLogin");
+                CutToUtils.getInstance().JumpToOne(LoginActivity.this, RegisterActivity.class, "codeLogin");
                 break;
             case R.id.tv_register:
-                CutToUtils.getInstance().JumpToOne(LoginActivity.this,RegisterActivity.class,"register");
+                CutToUtils.getInstance().JumpToOne(LoginActivity.this, RegisterActivity.class, "register");
                 break;
             case R.id.tv_forget:
-                CutToUtils.getInstance().JumpToOne(LoginActivity.this,SettingPasswordActivity.class,"找回密码");
+                CutToUtils.getInstance().JumpToOne(LoginActivity.this, SettingPasswordActivity.class, "找回密码");
 
                 break;
         }
