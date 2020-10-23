@@ -46,6 +46,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_user_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -88,6 +89,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_user_number"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -131,12 +133,14 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:textColor="@color/tv888"
-                        android:textSize="14sp"
+                        android:id="@+id/tv_eventType"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="50dp"
                         android:gravity="right|center_vertical"
-                        android:text="请选择 >" />
+                        android:text="请选择"
+                        android:textColor="@color/tv888"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -169,6 +173,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_notes"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -215,6 +220,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/et_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -251,6 +257,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_reserveTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
@@ -277,10 +284,12 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_reserveTime"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
                     android:gravity="right|center_vertical"
-                    android:text="请选择 >" />
+                    android:text="请选择" />
 
             </LinearLayout>
 

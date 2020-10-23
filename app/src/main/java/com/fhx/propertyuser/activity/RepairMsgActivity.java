@@ -55,23 +55,29 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
         tvTitle.setText("报修详情");
 
         switch (type){
-            case "one":
+            case "0":
                 ll_one_two.setVisibility(View.VISIBLE);
                 tv_urge.setVisibility(View.VISIBLE);
 
                 break;
-            case "two":
+            case "3":
+                ll_one_two.setVisibility(View.GONE);
+                tv_urge.setVisibility(View.GONE);
+
+                break;
+            case "1":
                 tv_name.setText("wangShiFu");
                 ll_one_two.setVisibility(View.VISIBLE);
                 tv_number.setVisibility(View.VISIBLE);
                 break;
-            case "three":
+            case "4":
                 rl_three_four.setVisibility(View.VISIBLE);
                 tv_commit.setVisibility(View.VISIBLE);
                 rating_three.setVisibility(View.VISIBLE);
                 edit_eva.setVisibility(View.VISIBLE);
                 break;
-            case "four":
+            case "2":
+            case "5":
                 rl_three_four.setVisibility(View.VISIBLE);
                 rating_four.setVisibility(View.VISIBLE);
                 tv_eva.setVisibility(View.VISIBLE);

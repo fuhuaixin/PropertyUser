@@ -9,6 +9,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.fhx.propertyuser.R;
+import com.tencent.mmkv.MMKV;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -21,12 +22,13 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     private SwipeBackLayout mSwipeBackLayout;
     public ZLoadingDialog zLoadingDialog;
+    public MMKV mmkv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(initLayout());
-
+        mmkv = MMKV.defaultMMKV();
         mSwipeBackLayout = getSwipeBackLayout();
         // 可以调用该方法，设置是否允许滑动退出
         setSwipeBackEnable(true);

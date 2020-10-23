@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dalimao.corelibrary.VerificationCodeInput;
+import com.fhx.propertyuser.MainActivity;
 import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.utils.CutToUtils;
@@ -32,8 +33,8 @@ public class VerificationCodeActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void initView() {
-        number = getIntent().getStringExtra("jumpOne");
-        type = getIntent().getStringExtra("jumpTwo");
+        number = mmkv.decodeString("RNumber");
+        type = getIntent().getStringExtra("jumpOne");
         tv_number = (TextView) findViewById(R.id.tv_number);
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_get_code = (TextView) findViewById(R.id.tv_get_code);
@@ -72,10 +73,13 @@ public class VerificationCodeActivity extends BaseActivity implements View.OnCli
             @Override
             public void onComplete(String content) {
 //                ToastShort(content);
-                if (type.equals("login")) { //登录验证码
-                    CutToUtils.getInstance().JumpToOne(VerificationCodeActivity.this, SettingPasswordActivity.class, "login");
-                } else if (type.equals("find")) {  //找回密码验证码
-                    CutToUtils.getInstance().JumpToOne(VerificationCodeActivity.this, SettingPasswordActivity.class, "find");
+                if (type.equals("codeLogin")) { //登录验证码
+                    CutToUtils.getInstance().JumpTo(VerificationCodeActivity.this, MainActivity.class);
+                    finish();
+                }  if (type.equals("register")){//注册
+                    mmkv.encode("code",content);
+
+                    CutToUtils.getInstance().JumpToOne(VerificationCodeActivity.this, SettingPasswordActivity.class, "register");
 
                 }
             }

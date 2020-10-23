@@ -46,6 +46,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_room"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -83,11 +84,12 @@
 
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
-                        android:text="上报人姓名/工号"
+                        android:text="上报人姓名"
                         android:textColor="@color/tv21"
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -104,7 +106,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/col_bg" />
-
 
 
                 <LinearLayout
@@ -131,6 +132,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_number"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="50dp"
@@ -142,10 +144,12 @@
                         android:textColorHint="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/col_bg" />
+
                 <LinearLayout
                     android:id="@+id/ll_complain_type"
                     android:layout_width="match_parent"
@@ -171,12 +175,14 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:textColor="@color/tv888"
-                        android:textSize="14sp"
+                        android:id="@+id/tv_complain_type"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
                         android:gravity="right|center_vertical"
-                        android:text="请选择 >" />
+                        android:text="请选择 >"
+                        android:textColor="@color/tv888"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -215,6 +221,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/et_content"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@null"
@@ -223,29 +230,43 @@
                     android:padding="10dp"
                     android:textColor="@color/tv333"
                     android:textSize="13sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/col_bg" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp">
+                    android:orientation="horizontal"
+                    android:paddingRight="10dp">
+
                     <ImageView
-                        android:visibility="invisible"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_must" />
+                        android:src="@mipmap/icon_must"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="事件时间"
                         android:textColor="@color/tv21"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_happen_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="right|center_vertical"
+                        android:text="请选择 >"
+                        android:textColor="@color/tv888"
                         android:textSize="14sp" />
 
                     <EditText
@@ -258,16 +279,17 @@
                         android:hint="请输入"
                         android:textColor="@color/tv21"
                         android:textColorHint="@color/tv888"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/shape_custom_dialog_bg"
                 android:orientation="vertical"
@@ -296,6 +318,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/et_hope_result"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@null"
@@ -306,12 +329,13 @@
                     android:textSize="13sp" />
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/shape_custom_dialog_bg"
                 android:gravity="center_vertical">
 
@@ -334,9 +358,10 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:layout_marginRight="10dp"
+                    android:id="@+id/tv_hope_Time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
                     android:gravity="right|center_vertical"
                     android:text="请选择 >" />
 

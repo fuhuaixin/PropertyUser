@@ -9,9 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
+import com.fhx.propertyuser.bean.SuccessBean;
 import com.fhx.propertyuser.utils.CutToUtils;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 /**
  * 设置密码 找回密码  重新设置密码
@@ -48,25 +54,11 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initData() {
         type = getIntent().getStringExtra("jumpOne");
-        Log.e("fhxx",type+"---"+type.equals("找回密码")+"----"+type.equals("login")+"----------"+type.equals("find"));
-        if (type.equals("找回密码")){
-            tv_code_title.setText("找回密码");
-            tv_number.setText("为了保障您的账户安全，1天只能操作1次，否则账户将会被锁定无法登录");
-            tv_get_code.setText("下一步");
-            image_user.setImageResource(R.mipmap.icon_little_phone_unsel);
-            edit_user.setHint("请输入手机号码");
-        }else if (type.equals("login")){
-            tv_code_title.setText("请设置密码");
-            tv_number.setText("8-20个字符，不可是纯数字");
-            tv_get_code.setText("完成");
-            edit_user.setHint("请输入密码");
-            image_user.setImageResource(R.mipmap.icon_little_password_unsel);
-        }else if (type.equals("find")){
-            tv_code_title.setText("请设置新密码");
-            tv_number.setText("8-20个字符，不可是纯数字");
-            tv_get_code.setText("完成");
-            edit_user.setHint("请输入密码");
-            image_user.setImageResource(R.mipmap.icon_little_password_unsel);
+
+        if (type.equals("register")){
+
+        }else if (type.equals("forget")){
+
         }
 
     }
@@ -80,26 +72,12 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
         edit_user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                switch (type) {
-                    case "找回密码":
-                        if (hasFocus) {
-                            ll_user.setBackgroundResource(R.drawable.shape_user_sel_bg);
-                            image_user.setImageResource(R.mipmap.icon_little_phone_sel);
-                        } else {
-                            ll_user.setBackgroundResource(R.drawable.shape_password_unsel);
-                            image_user.setImageResource(R.mipmap.icon_little_phone_unsel);
-                        }
-                        break;
-                    case "login":
-                    case "find":
-                        if (hasFocus) {
-                            ll_user.setBackgroundResource(R.drawable.shape_user_sel_bg);
-                            image_user.setImageResource(R.mipmap.icon_little_password_sel);
-                        } else {
-                            ll_user.setBackgroundResource(R.drawable.shape_password_unsel);
-                            image_user.setImageResource(R.mipmap.icon_little_password_unsel);
-                        }
-                        break;
+                if (hasFocus) {
+                    ll_user.setBackgroundResource(R.drawable.shape_user_sel_bg);
+                    image_user.setImageResource(R.mipmap.icon_little_password_sel);
+                } else {
+                    ll_user.setBackgroundResource(R.drawable.shape_password_unsel);
+                    image_user.setImageResource(R.mipmap.icon_little_password_unsel);
                 }
 
             }
@@ -132,13 +110,16 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.tv_get_code:
                 switch (type) {
-                    case "找回密码":
-                        CutToUtils.getInstance().JumpToTwo(SettingPasswordActivity.this, VerificationCodeActivity.class, edit_user.getText().toString(), "find");
+                    case "register":
+                        if (!edit_user.getText().toString().equals("")){
+                            ToRegister();
 
+                        }else {
+                            ToastShort("请输入密码");
+                        }
                         break;
-                    case "login":
-                    case "find":
-                        CutToUtils.getInstance().JumpTo(SettingPasswordActivity.this,LoginActivity.class);
+                    case "forget":
+
                         break;
                 }
                 break;
@@ -150,5 +131,29 @@ public class SettingPasswordActivity extends BaseActivity implements View.OnClic
                 overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
                 break;
         }
+    }
+
+    private void ToRegister(){
+        EasyHttp.post(AppUrl.Register)
+                .syncRequest(false)
+                .params("phone",mmkv.decodeString("RNumber"))
+                .params("password",edit_user.getText().toString())
+                .execute(new SimpleCallBack<String >() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
+                        if (successBean.isSuccess()){
+                            ToastShort(successBean.getMsg());
+                            CutToUtils.getInstance().JumpTo(SettingPasswordActivity.this,LoginActivity.class);
+                        }else {
+                            ToastShort(successBean.getMsg());
+                        }
+                    }
+                });
     }
 }

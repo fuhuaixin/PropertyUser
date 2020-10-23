@@ -5,14 +5,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.activity.login.LoginActivity;
 import com.fhx.propertyuser.activity.mine.CarManageActivity;
 import com.fhx.propertyuser.activity.mine.ChangePasswordActivity;
 import com.fhx.propertyuser.activity.mine.MineInformationActivity;
 import com.fhx.propertyuser.activity.mine.OrderListActivity;
 import com.fhx.propertyuser.activity.mine.PersonalAttestationActivity;
 import com.fhx.propertyuser.base.BaseFragment;
+import com.fhx.propertyuser.utils.CommonDialog;
 import com.fhx.propertyuser.utils.CutToUtils;
 
 /**
@@ -22,7 +25,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     private ImageView imageBack;
     private TextView tvTitle;
     private RelativeLayout rl_mine_information;
-    private LinearLayout ll_change_password,ll_grrz,ll_car_manage,ll_order_list;
+    private LinearLayout ll_change_password,ll_grrz,ll_car_manage,ll_order_list,ll_logout;
 
     @Override
     public int setLayoutId() {
@@ -39,6 +42,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         ll_grrz =view.findViewById(R.id.ll_grrz);
         ll_car_manage =view.findViewById(R.id.ll_car_manage);
         ll_order_list =view.findViewById(R.id.ll_order_list);
+        ll_logout =view.findViewById(R.id.ll_logout);
 
     }
 
@@ -57,6 +61,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         ll_grrz.setOnClickListener(this);
         ll_car_manage.setOnClickListener(this);
         ll_order_list.setOnClickListener(this);
+        ll_logout.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +82,37 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
             case R.id.ll_order_list://账单服务
                 CutToUtils.getInstance().JumpTo(getActivity(), OrderListActivity.class);
                 break;
+            case R.id.ll_logout://退出登录
+                initDialog();
+                break;
         }
+    }
+
+    /**
+     * 单双按钮弹窗
+     */
+    private void initDialog() {
+        final CommonDialog dialog = new CommonDialog(getActivity());
+        dialog.setMessage("确定退出登录么？")
+                .setImageResId(-1)
+                .setTitle("系统提示")
+                .setSingle(false).setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
+            @Override
+            public void onPositiveClick() {
+                dialog.dismiss();
+                mmkv.removeValueForKey("token");
+                mmkv.removeValueForKey("customerId");
+                mmkv.removeValueForKey("userPhone");
+                mmkv.removeValueForKey("password");
+                CutToUtils.getInstance().JumpTo(getActivity(), LoginActivity.class);
+                getActivity().finish();
+            }
+
+            @Override
+            public void onNegtiveClick() {
+                dialog.dismiss();
+                Toast.makeText(getContext(),"取消",Toast.LENGTH_SHORT).show();
+            }
+        }).show();
     }
 }

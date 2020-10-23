@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="维修时间:"
+                android:text="预约时间:"
                 android:textColor="@color/tv21"
                 android:textSize="14sp" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="预约时间:"
+                android:text="预约地址:"
                 android:textColor="@color/tv21"
                 android:textSize="14sp" />
 
@@ -91,7 +91,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_repairTime"
+                android:id="@+id/tv_reserveTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -109,7 +109,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_appointmentTime"
+                android:id="@+id/tv_notes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.tencent.mmkv.MMKV;
+
 public abstract class BaseFragment extends Fragment {
 
     protected Activity mActivity;
-
+    public MMKV mmkv;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -26,6 +28,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mmkv = MMKV.defaultMMKV();
+
     }
 
     @Nullable

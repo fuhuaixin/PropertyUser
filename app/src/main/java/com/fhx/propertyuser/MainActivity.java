@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         rg_home =findViewById(R.id.rg_home);
 
-
     }
 
     /**
