@@ -65,6 +65,9 @@
         <!--车辆认证-->
         <activity android:name=".activity.mine.CarManageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--车辆详情-->
+        <activity android:name=".activity.mine.CarMsgActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!--账单服务-->
         <activity android:name=".activity.mine.OrderListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>

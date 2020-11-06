@@ -57,6 +57,13 @@ public class CutToUtils {
 
     }
 
+    /**
+     * 两个参数跳转
+     * @param context
+     * @param activity
+     * @param jumpOne
+     * @param jumpTwo
+     */
     public void JumpToTwo(Activity context, Class<? extends Activity> activity, String jumpOne, String jumpTwo){
         Intent intent = new Intent(context, activity);
         intent.putExtra("jumpOne", jumpOne);

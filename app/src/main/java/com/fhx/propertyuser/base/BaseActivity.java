@@ -120,4 +120,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
         popupMenu.show();
     }
 
+    public void finishActivity(){
+        finish();
+        overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
+    }
 }

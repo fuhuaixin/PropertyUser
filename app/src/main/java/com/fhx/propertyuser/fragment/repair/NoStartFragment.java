@@ -56,9 +56,8 @@ public class NoStartFragment extends BaseFragment {
     }
 
     @Override
-    public void setViewData(View view) {
-        super.setViewData(view);
-
+    public void onResume() {
+        super.onResume();
         mList.clear();
         page = 1;
         switch (type) {
@@ -74,9 +73,16 @@ public class NoStartFragment extends BaseFragment {
         }
 
 
+    }
+
+    @Override
+    public void setViewData(View view) {
+        super.setViewData(view);
+
         noStartAdapter = new NoStartAdapter(mList);
         recycle_invite.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle_invite.setAdapter(noStartAdapter);
+
     }
 
     @Override
@@ -122,26 +128,30 @@ public class NoStartFragment extends BaseFragment {
         noStartAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                String repairId = mList.get(position).getRepairId();
                 switch (mList.get(position).getStatus()) {
                     case "0":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "0");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "0",repairId);
                         break;
                     case "1":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "1");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "1",repairId);
 
                         break;
                     case "2":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "2");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "2",repairId);
                         break;
                     case "5":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "5");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "5",repairId);
 
                         break;
                     case "3":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "3");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "3",repairId);
                         break;
                     case "4":
-                        CutToUtils.getInstance().JumpToOne(getActivity(), RepairMsgActivity.class, "4");
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "4",repairId);
+                        break;
+                    case "6":
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "6",repairId);
                         break;
                 }
             }

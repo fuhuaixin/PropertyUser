@@ -32,6 +32,7 @@
                 android:paddingRight="15dp">
 
                 <EditText
+                    android:id="@+id/et_car_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -41,6 +42,7 @@
 
             </LinearLayout>
             <TextView
+                android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
@@ -68,6 +71,8 @@
             </LinearLayout>
 
             <TextView
+                android:visibility="gone"
+
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,6 +80,8 @@
                 android:textColor="@color/tv333"
                 android:textSize="15sp" />
             <LinearLayout
+                android:visibility="gone"
+
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
@@ -93,6 +100,8 @@
 
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
+
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
@@ -114,7 +123,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="所有人："
+                android:text="所有人（车主）："
                 android:textColor="@color/tv333"
                 android:textSize="15sp" />
             <LinearLayout
@@ -127,11 +136,12 @@
                 android:paddingRight="15dp">
 
                 <EditText
+                    android:id="@+id/et_car_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="请输入车辆所有人"
+                    android:hint="请输入车辆所有人姓名"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -139,7 +149,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="注册日期："
+                android:text="联系方式："
                 android:textColor="@color/tv333"
                 android:textSize="15sp" />
             <LinearLayout
@@ -152,6 +162,7 @@
                 android:paddingRight="15dp">
 
                 <EditText
+                    android:id="@+id/et_owner_phone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -164,10 +175,11 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="车辆类型："
+                android:text="车辆类型：（非必填）"
                 android:textColor="@color/tv333"
                 android:textSize="15sp" />
             <LinearLayout
+                android:id="@+id/ll_car_type"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
@@ -177,6 +189,7 @@
                 android:paddingRight="15dp">
 
                 <TextView
+                    android:id="@+id/tv_car_type"
                     android:gravity="center_vertical"
                     android:text="请选择"
                     android:layout_width="0dp"
@@ -194,7 +207,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="使用性质："
+                android:text="车位编号：（非必填）"
                 android:textColor="@color/tv333"
                 android:textSize="15sp" />
             <LinearLayout
@@ -206,9 +219,10 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <TextView
+                <EditText
+                    android:id="@+id/et_parking_no"
                     android:gravity="center_vertical"
-                    android:text="请选择"
+                    android:hint="请输入车位编号"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -222,6 +236,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_commit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="50dp"

@@ -1,19 +1,31 @@
 package com.fhx.propertyuser.fragment.complain;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.activity.ComplainMsgActivity;
 import com.fhx.propertyuser.activity.RepairMsgActivity;
 import com.fhx.propertyuser.adapter.ComplainAdapter;
+import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseFragment;
 import com.fhx.propertyuser.bean.ComplainBean;
 import com.fhx.propertyuser.utils.CutToUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +34,12 @@ public class NoStartFragment extends BaseFragment {
 
     private LinearLayout ll_null;
     private RecyclerView recycle_invite;
+    private SmartRefreshLayout refresh;
 
     private ComplainAdapter complainAdapter;
-    private List<ComplainBean> mList =new ArrayList<>();
+    private List<ComplainBean.DataBean.RecordsBean> mList = new ArrayList<>();
     private String type;
+    private int page = 1; //第几页
 
     public NoStartFragment(String type) {
         this.type = type;
@@ -39,43 +53,37 @@ public class NoStartFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         super.findViewById(view);
-        ll_null =view.findViewById(R.id.ll_null);
-        recycle_invite =view.findViewById(R.id.recycle_invite);
+        ll_null = view.findViewById(R.id.ll_null);
+        recycle_invite = view.findViewById(R.id.recycle_invite);
+        refresh = view.findViewById(R.id.refresh);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mList.clear();
+        page = 1;
+        switch (type) {
+            case "未开始":
+                getList(0);
+
+                break;
+            case "进行中":
+                getList(1);
+
+                break;
+            case "已完成":
+                getList(-1);
+
+                break;
+        }
     }
 
     @Override
     public void setViewData(View view) {
         super.setViewData(view);
-        mList.clear();
-        switch (type){
-            case "未开始":
-                for (int i = 0; i < 10; i++) {
-                    mList.add(new ComplainBean("隔壁房间噪音"+i,"噪音影响"+i,"8.20",0));
-                }
 
-                break;
-            case "进行中":
-                for (int i = 0; i < 10; i++) {
-                    mList.add(new ComplainBean("空调漏水"+i,"空调漏水"+i,"8.10",1));
-                }
-                break;
-            case "已完成":
-                mList.add(new ComplainBean("空调漏水","空调漏水","8.10",2));
-                mList.add(new ComplainBean("空调漏水","空调漏水","8.10",2));
-                mList.add(new ComplainBean("空调漏水","空调漏水","8.10",2));
-                mList.add(new ComplainBean("隔壁房间噪音","噪音影响","8.10",3));
-                mList.add(new ComplainBean("隔壁房间噪音","噪音影响","8.10",3));
-                mList.add(new ComplainBean("隔壁房间噪音","噪音影响","8.10",3));
-                break;
-        }
-
-        if (mList.size()>0){
-            ll_null.setVisibility(View.GONE);
-        }else {
-            ll_null.setVisibility(View.VISIBLE);
-        }
-
-        complainAdapter =new ComplainAdapter(mList);
+        complainAdapter = new ComplainAdapter(mList);
         recycle_invite.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle_invite.setAdapter(complainAdapter);
 
@@ -87,23 +95,112 @@ public class NoStartFragment extends BaseFragment {
         complainAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (mList.get(position).getProgress()){
-                    case 0:
-                        CutToUtils.getInstance().JumpToOne(getActivity(), ComplainMsgActivity.class,"one");
+                String complainId = mList.get(position).getComplainId();
+                switch (mList.get(position).getStatus()) {
+                    case "0"://未开始
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "one",complainId);
                         break;
-                    case 1:
-                        CutToUtils.getInstance().JumpToOne(getActivity(), ComplainMsgActivity.class,"two");
+                    case "1"://处理中
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "two",complainId);
 
                         break;
-                    case 2:
-                        CutToUtils.getInstance().JumpToOne(getActivity(), ComplainMsgActivity.class,"three");
+                    case "4": //待评价
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "three",complainId);
 
                         break;
-                    case 3:
-                        CutToUtils.getInstance().JumpToOne(getActivity(), ComplainMsgActivity.class,"four");
+                    case "2"://已完成
+                    case "5"://已评价
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "four",complainId);
+                        break;
+                    case "6"://已催办
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "six",complainId);
                         break;
                 }
             }
         });
+
+
+        refresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mList.clear();
+                page = 1;
+                switch (type) {
+                    case "未开始":
+                        getList(0);
+
+                        break;
+                    case "进行中":
+                        getList(1);
+
+                        break;
+                    case "已完成":
+                        getList(-1);
+
+                        break;
+                }
+            }
+        });
+
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                switch (type) {
+                    case "未开始":
+                        getList(0);
+
+                        break;
+                    case "进行中":
+                        getList(1);
+
+                        break;
+                    case "已完成":
+                        getList(-1);
+
+                        break;
+                }
+            }
+        });
+
     }
+
+    /**
+     * 获取列表
+     * @param status
+     */
+    private void getList(int status) {
+        EasyHttp.get(AppUrl.ComplaintList)
+                .params("pageNum", String.valueOf(page))
+                .params("pageSize", "10")
+                .params("status", String.valueOf(status))
+                .params("customerId", mmkv.decodeString("customerId"))
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error", e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        refresh.finishLoadMore();
+                        refresh.finishRefresh();
+                        ComplainBean complainBean = JSON.parseObject(s, ComplainBean.class);
+                        if (complainBean.isSuccess()) {
+                            mList.addAll(complainBean.getData().getRecords());
+                            if (mList.size() > 0) {
+                                ll_null.setVisibility(View.GONE);
+                            } else {
+                                ll_null.setVisibility(View.VISIBLE);
+                            }
+
+                            complainAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(mActivity, complainBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
 }

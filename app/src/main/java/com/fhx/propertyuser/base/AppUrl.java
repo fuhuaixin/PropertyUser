@@ -15,15 +15,38 @@ public class AppUrl {
     public static final String RepairType = BASEURL + "repairType/list";
     //添加报修信息
     public static final String RepairAdd = BASEURL + "repair/add";
+    //删除报修信息
+    public static final String RepairDel = BASEURL + "repair/del";
     //报修列表查询接口
     public static final String RepairList = BASEURL + "repair/list";
+    //根据id获得报修及工单处理详情
+    public static final String RepairDetail = BASEURL + "repair/detail";
     //撤回报修接口
     public static final String RepairCancel = BASEURL + "repair/cancel";
     //投诉类型列表查询接口
     public static final String ComplaintType = BASEURL + "complaintType/list";
     //添加投诉信息
     public static final String ComplaintAdd = BASEURL + "complaint/add";
-
+    //删除投诉信息
+    public static final String ComplaintDel = BASEURL + "complaint/del";
+    //投诉列表查询接口
+    public static final String ComplaintList = BASEURL + "complaint/list";
+    //根据id获得投诉及工单处理详情
+    public static final String ComplaintDetail = BASEURL + "complaint/detail";
+    //催办
+    public static final String OrderUrge = BASEURL + "order/urge";
+    //APP添加车辆信息
+    public static final String CarAdd = BASEURL + "car/add";
+    //修改车辆信息
+    public static final String CarEdit = BASEURL + "car/edit";
+    //删除车辆信息
+    public static final String CarDel = BASEURL + "car/del";
+    //车辆列表分页查询接口
+    public static final String CarList = BASEURL + "car/list";
+    //根据车辆id获得详情
+    public static final String CarDetail = BASEURL + "car/detail";
+    //添加访客信息
+    public static final String VisitorAdd = BASEURL + "visitor/add";
 
 
 }

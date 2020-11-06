@@ -24,23 +24,27 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
+
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="title"
+            android:text="title11111111111111111111111111111111111111"
             android:textColor="@color/tv21"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <ImageView
-            android:visibility="gone"
             android:id="@+id/image_no_repair"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/tv_title"
-            android:src="@mipmap/icon_complain_no_repair"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_complain_no_repair" />
+
         <TextView
             android:id="@+id/tv_msg"
             android:layout_width="wrap_content"
@@ -67,6 +71,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"

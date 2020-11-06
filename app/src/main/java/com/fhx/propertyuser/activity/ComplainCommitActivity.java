@@ -193,15 +193,15 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
      */
     private void commit() {
         PostRequest post = EasyHttp.post(AppUrl.ComplaintAdd);
+        post.syncRequest(false);
         if (!tv_hope_Time.getText().toString().equals("请选择 >")) {
             post.params("hopeTime", tv_hope_Time.getText().toString());
         }
         if (!tv_happen_time.getText().toString().equals("请选择 >")) {
             post.params("happenTime", tv_happen_time.getText().toString());
         }
-        post.syncRequest(false)
-                .params("customerId", mmkv.decodeString("customerId"))
-                .params("complainTypeId", mEventTypeId)
+        post.params("customerId", mmkv.decodeString("customerId"))
+                .params("complaintTypeId", mEventTypeId)
                 .params("complainTypeName", tv_complain_type.getText().toString())
                 .params("spaceNo", et_room.getText().toString())
                 .params("customerPhone", et_number.getText().toString())
@@ -218,6 +218,8 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
                         if (successBean.isSuccess()) {
                             ToastShort("提交成功");
+                            finish();
+                            overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
                         } else {
                             ToastShort(successBean.getMsg());
                         }

@@ -43,9 +43,10 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_eventType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="哇哈哈"
+                        android:text=" "
                         android:textColor="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -72,9 +73,10 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="哇哈哈"
+                        android:text=" "
                         android:textColor="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -101,9 +103,10 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_eventTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2020/7/31 11:50"
+                        android:text=""
                         android:textColor="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -129,9 +132,10 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_hope_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2020/7/31 11:50"
+                        android:text=" "
                         android:textColor="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -156,9 +160,10 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_hope_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2020/7/31 11:50"
+                        android:text=" "
                         android:textColor="@color/tv888"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -222,20 +227,42 @@
                         android:textSize="13sp"
                         android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/tv_urge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:gravity="center"
                         android:layout_marginTop="30dp"
-                        android:background="@drawable/shape_evaluate_bg"
-                        android:paddingLeft="30dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="30dp"
-                        android:paddingBottom="5dp"
-                        android:text="催办"
-                        android:textColor="#108de8"
-                        android:textSize="18sp"
-                        android:visibility="gone" />
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:id="@+id/tv_urge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_evaluate_bg"
+                            android:paddingLeft="30dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="30dp"
+                            android:paddingBottom="5dp"
+                            android:text="催办"
+                            android:textColor="#108de8"
+                            android:textSize="18sp"
+                            android:visibility="gone" />
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/tv_del"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_del_bg"
+                            android:paddingLeft="30dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="30dp"
+                            android:paddingBottom="5dp"
+                            android:text="删除"
+                            android:textColor="#d81e06"
+                            android:textSize="18sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
 
                     <View
                         android:layout_width="0dp"

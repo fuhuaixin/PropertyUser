@@ -50,6 +50,12 @@ public class NoStartAdapter extends BaseQuickAdapter<RepairListBean.DataBean.Rec
                 image_no_repair.setImageResource(R.mipmap.icon_no_repair);
                 ll_three.setVisibility(View.GONE);
                 break;
+            case "6":
+                ll_two.setVisibility(View.GONE);
+                image_no_repair.setVisibility(View.VISIBLE);
+                image_no_repair.setImageResource(R.mipmap.icon_repair_urge);
+                ll_three.setVisibility(View.GONE);
+                break;
             case "2":
             case "5":
                 image_no_repair.setVisibility(View.GONE);
