@@ -11,18 +11,16 @@ import java.util.List;
 
 public class BranchMsgAdapter extends BaseQuickAdapter<ContactsBranchBean.MsgBean, BaseViewHolder> {
     public BranchMsgAdapter(@Nullable List<ContactsBranchBean.MsgBean> data) {
-        super(R.layout.adapter_branch_msg, data);
+//        super(R.layout.adapter_branch_msg, data);
+        super(R.layout.adapter_contacts_branch, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ContactsBranchBean.MsgBean item) {
-        if (helper.getPosition()==0){
-            helper.setVisible(R.id.view_line,false);
-        }
-        helper.setText(R.id.tv_name,item.getName())
-                .setText(R.id.tv_job,item.getJob())
-                .setText(R.id.tv_number,item.getPhone());
-
+        helper.setVisible(R.id.view_line,false);
+        helper.setTextColor(R.id.tv_title,mContext.getResources().getColor(R.color.tv888));
+        helper.setText(R.id.tv_title,item.getTitle());
+        helper.setImageResource(R.id.image_down,R.mipmap.icon_contacts_right);
         helper.addOnClickListener(R.id.ll_item);
     }
 }

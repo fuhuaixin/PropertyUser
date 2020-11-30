@@ -9,18 +9,18 @@ import com.fhx.propertyuser.bean.InviteSendBean;
 
 import java.util.List;
 
-public class InviteSendAdapter extends BaseQuickAdapter<InviteSendBean, BaseViewHolder> {
-    public InviteSendAdapter(@Nullable List<InviteSendBean> data) {
+public class InviteSendAdapter extends BaseQuickAdapter<InviteSendBean.DataBean.RecordsBean, BaseViewHolder> {
+    public InviteSendAdapter(@Nullable List<InviteSendBean.DataBean.RecordsBean> data) {
         super(R.layout.adapter_invite_send, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, InviteSendBean item) {
+    protected void convert(BaseViewHolder helper, InviteSendBean.DataBean.RecordsBean item) {
 
-        helper.setText(R.id.tv_invite_name, item.getInviteName())
-                .setText(R.id.tv_phone, item.getPhone())
-                .setText(R.id.tv_time, item.getTime())
-                .setText(R.id.tv_reason, item.getReason());
+        helper.setText(R.id.tv_invite_name, item.getGuestName())
+                .setText(R.id.tv_phone, item.getGuestPhone())
+                .setText(R.id.tv_time, item.getComeDay())
+                .setText(R.id.tv_reason, item.getOrigin());
 
         helper.addOnClickListener(R.id.ll_item);
     }

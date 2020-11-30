@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.activity.ContactsListActivity;
 import com.fhx.propertyuser.activity.ContactsMsgActivity;
 import com.fhx.propertyuser.bean.ContactsBranchBean;
 import com.fhx.propertyuser.utils.CutToUtils;
@@ -19,9 +20,14 @@ import java.util.List;
 
 public class ContactsBranchAdapter extends BaseQuickAdapter<ContactsBranchBean, BaseViewHolder> {
     private Activity activity;
+    private List<ContactsBranchBean.MsgBean> msgBeanList ;
     public ContactsBranchAdapter( @Nullable List<ContactsBranchBean> data,Activity activity) {
         super(R.layout.adapter_contacts_branch, data);
         this.activity =activity;
+    }
+
+    public void setMsgBeanList( List<ContactsBranchBean.MsgBean> msgBeanList){
+        this.msgBeanList =msgBeanList;
     }
 
     @Override
@@ -29,14 +35,14 @@ public class ContactsBranchAdapter extends BaseQuickAdapter<ContactsBranchBean, 
 
         RecyclerView recycle_msg  = helper.getView(R.id.recycle_msg);
 
-        BranchMsgAdapter branchMsgAdapter = new BranchMsgAdapter(item.getMsgBeanList());
+        BranchMsgAdapter branchMsgAdapter = new BranchMsgAdapter(msgBeanList);
         recycle_msg.setLayoutManager(new LinearLayoutManager(mContext));
         recycle_msg.setAdapter(branchMsgAdapter);
 
         branchMsgAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                CutToUtils.getInstance().JumpTo(activity, ContactsMsgActivity.class);
+                CutToUtils.getInstance().JumpToOne(activity, ContactsListActivity.class,msgBeanList.get(position).getId());
             }
         });
 
@@ -50,7 +56,7 @@ public class ContactsBranchAdapter extends BaseQuickAdapter<ContactsBranchBean, 
             helper.setImageResource(R.id.image_down,R.mipmap.icon_up);
             recycle_msg.setVisibility(View.VISIBLE);
         }
-        helper.setText(R.id.tv_title,item.getTitle()+"("+item.getTotal()+")");
+        helper.setText(R.id.tv_title,item.getTitle());
 
         helper.addOnClickListener(R.id.ll_item);
     }

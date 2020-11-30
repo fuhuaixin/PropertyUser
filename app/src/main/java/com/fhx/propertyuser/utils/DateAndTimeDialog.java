@@ -1,7 +1,6 @@
 package com.fhx.propertyuser.utils;
 
 
-import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +26,9 @@ import com.fhx.propertyuser.fragment.time.TimeFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 日期时间选择工具
+ */
 public class DateAndTimeDialog extends DialogFragment {
     private TextView tv_sure;
     private RadioGroup rg_time;

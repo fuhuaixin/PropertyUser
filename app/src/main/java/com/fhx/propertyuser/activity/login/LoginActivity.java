@@ -186,7 +186,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             mmkv.encode("userPhone",edit_user.getText().toString());
                             mmkv.encode("password",edit_password.getText().toString());
                             mmkv.encode("token",loginBean.getData().getToken());
-                            mmkv.encode("customerId",loginBean.getData().getCustomer().getCustomerId());
+                            mmkv.encode("customerId",loginBean.getData().getPeople().getPeopleId());
                             ToastShort("登录成功");
                             finish();
                             CutToUtils.getInstance().JumpTo(LoginActivity.this, MainActivity.class);

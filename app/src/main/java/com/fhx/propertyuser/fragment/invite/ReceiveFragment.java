@@ -41,10 +41,6 @@ public class ReceiveFragment extends BaseFragment {
     public void setViewData(View view) {
         super.setViewData(view);
         mList.clear();
-        mList.add(new InviteSendBean("张三","15875464564","2020.1.4","来访面试"));
-        mList.add(new InviteSendBean("张三","15875464564","2020.2.4","商务合作"));
-        mList.add(new InviteSendBean("张三","15875464564","2020.3.4","来访面试"));
-        mList.add(new InviteSendBean("张三","15875464564","2020.4.4","商务合作"));
 
         if (mList.size()>0){
             ll_null.setVisibility(View.GONE);

@@ -76,7 +76,7 @@ public class SplashActivity extends BaseActivity {
                         if (successBean.isSuccess()){
                             CutToUtils.getInstance().JumpTo(SplashActivity.this, MainActivity.class);
                             mmkv.encode("token",successBean.getData().getToken());
-                            mmkv.encode("customerId",successBean.getData().getCustomer().getCustomerId());
+                            mmkv.encode("customerId",successBean.getData().getPeople().getPeopleId());
                         }else {
                             CutToUtils.getInstance().JumpTo(SplashActivity.this, LoginActivity.class);
 

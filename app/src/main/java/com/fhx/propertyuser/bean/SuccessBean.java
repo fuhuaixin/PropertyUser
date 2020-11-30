@@ -8,20 +8,22 @@ public class SuccessBean {
      */
 
     private boolean success;
-    private boolean data;
+    private Object data;
     private String msg;
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 
     public boolean isSuccess() {
         return success;
     }
 
-    public boolean isData() {
-        return data;
-    }
 
-    public void setData(boolean data) {
-        this.data = data;
-    }
 
     public void setSuccess(boolean success) {
         this.success = success;

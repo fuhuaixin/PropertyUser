@@ -85,7 +85,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邀约时间："
+            android:text="来访时间："
             android:textColor="@color/tv21"
             android:textSize="14sp" />
 
@@ -117,7 +117,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邀约理由："
+            android:text="来访理由："
             android:textColor="@color/tv21"
             android:textSize="14sp" />
 

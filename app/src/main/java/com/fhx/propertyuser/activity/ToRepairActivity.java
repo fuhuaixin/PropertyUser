@@ -20,6 +20,7 @@ import com.fhx.propertyuser.utils.ListDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
+import com.zhouyou.http.request.PostRequest;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,10 +32,10 @@ import java.util.List;
 public class ToRepairActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imageBack;
     private TextView tvTitle;
-    private LinearLayout ll_event_type,ll_reserveTime;
-    private TextView tv_eventType,tv_reserveTime,tv_toPay;
+    private LinearLayout ll_event_type, ll_reserveTime;
+    private TextView tv_eventType, tv_reserveTime, tv_toPay;
     private ListDialog listDialog;
-    private EditText et_user_number,et_user_name,et_content,et_notes;
+    private EditText et_user_number, et_user_name, et_content, et_notes;
 
     private List<String> mEventTypeList = new ArrayList<>();
     private List<String> mEventTypeIdList = new ArrayList<>();
@@ -78,9 +79,10 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         ll_reserveTime.setOnClickListener(this);
         tv_toPay.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_back:
                 finish();
                 overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
@@ -90,7 +92,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(BaseQuickAdapter adapter, View view, int position) {
                         tv_eventType.setText(mEventTypeList.get(position));
-                        eventTypeId =mEventTypeIdList.get(position);
+                        eventTypeId = mEventTypeIdList.get(position);
                         listDialog.dismiss();
                     }
                 });
@@ -104,28 +106,28 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                tv_reserveTime.setText(year+"-"+(month+1)+"-"+dayOfMonth);
+                                tv_reserveTime.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
                             }
-                        },year,mouth,day).show();
+                        }, year, mouth, day).show();
                 break;
             case R.id.tv_toPay:
-                if (et_user_name.getText().toString().equals("")){
+                if (et_user_name.getText().toString().equals("")) {
                     ToastShort("请输入报修人姓名");
                     return;
                 }
-                if (et_user_number.getText().toString().equals("")){
+                if (et_user_number.getText().toString().equals("")) {
                     ToastShort("请输入报修人电话");
                     return;
                 }
-                if (tv_eventType.getText().toString().equals("请输入")){
+                if (tv_eventType.getText().toString().equals("请输入")) {
                     ToastShort("请选择事件类型");
                     return;
                 }
-                if (et_notes.getText().toString().equals("")){
+                if (et_notes.getText().toString().equals("")) {
                     ToastShort("请选择事件地址");
                     return;
                 }
-                if (et_content.getText().toString().equals("")){
+                if (et_content.getText().toString().equals("")) {
                     ToastShort("请输入问题描述");
                     return;
                 }
@@ -137,28 +139,28 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
     /**
      * 获取时间类型
      */
-    private void getEventType(){
+    private void getEventType() {
         EasyHttp.get(AppUrl.RepairType)
                 .syncRequest(false)
-                .params("pageNum","1")
-                .params("pageSize","50")
+                .params("pageNum", "1")
+                .params("pageSize", "50")
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     @Override
                     public void onSuccess(String s) {
                         RepairTypeListBean repairTypeListBean = JSON.parseObject(s, RepairTypeListBean.class);
-                        if (repairTypeListBean.isSuccess()){
+                        if (repairTypeListBean.isSuccess()) {
                             List<RepairTypeListBean.DataBean.RecordsBean> records = repairTypeListBean.getData().getRecords();
                             for (int i = 0; i < records.size(); i++) {
                                 mEventTypeList.add(records.get(i).getRepairTypeName());
                                 mEventTypeIdList.add(records.get(i).getRepairTypeId());
                             }
 
-                        }else {
+                        } else {
                             ToastShort(repairTypeListBean.getMsg());
                         }
                     }
@@ -168,22 +170,24 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
     /**
      * 提交报修表单
      */
-    private void postRepair(){
-        EasyHttp.post(AppUrl.RepairAdd)
-                .syncRequest(false)
-                .params("originType","1")//区分用户端还是物业端 0物业  1用户
-                .params("repairTypeId",eventTypeId)
-                .params("repairTypeName",tv_eventType.getText().toString())
-                .params("customerPhone",et_user_number.getText().toString())
-                .params("customerName",et_user_name.getText().toString())
-                .params("content",et_content.getText().toString())//描述
-                .params("notes",et_notes.getText().toString())//地址
-                .params("customerId",mmkv.decodeString("customerId")) //用户id
-                .params("reserveTime",tv_reserveTime.getText().toString())//预约事件
-                .execute(new SimpleCallBack<String >() {
+    private void postRepair() {
+        PostRequest post = EasyHttp.post(AppUrl.RepairAdd);
+        if (!tv_reserveTime.getText().toString().equals("请选择")) {
+            post.params("reserveTime", tv_reserveTime.getText().toString());//预约事件
+        }
+        post.syncRequest(false)
+                .params("originType", "1")//区分用户端还是物业端 0物业  1用户
+                .params("repairTypeId", eventTypeId)
+                .params("repairTypeName", tv_eventType.getText().toString())
+                .params("customerPhone", et_user_number.getText().toString())
+                .params("customerName", et_user_name.getText().toString())
+                .params("content", et_content.getText().toString())//描述
+                .params("notes", et_notes.getText().toString())//地址
+                .params("customerId", mmkv.decodeString("customerId")) //用户id
+                .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     @Override

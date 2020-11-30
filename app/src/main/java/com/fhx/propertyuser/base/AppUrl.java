@@ -6,9 +6,9 @@ public class AppUrl {
 //    public static final String BASEURL = "http://192.168.10.127:8083/"; //测试(测试环境)
 
     //注册
-    public static final String Register = BASEURL + "customer/register";
+    public static final String Register = BASEURL + "people/register";
     //用户端App登录
-    public static final String Login = BASEURL + "customer/appUser";
+    public static final String Login = BASEURL + "people/appUser";
     //用户验证手机号是否已经注册过
     public static final String CheckExist = BASEURL + "customer/checkExist";
     //报修类型列表查询接口
@@ -46,7 +46,21 @@ public class AppUrl {
     //根据车辆id获得详情
     public static final String CarDetail = BASEURL + "car/detail";
     //添加访客信息
-    public static final String VisitorAdd = BASEURL + "visitor/add";
+    public static final String VisitorAdd = BASEURL + "visit/add";
+    //添加访客信息
+    public static final String Visitorlist = BASEURL + "visit/list";
+    //部门父子结构整理
+    public static final String DeptTree = BASEURL + "dept/treeList";
+    //根据部门id获得员工列表
+    public static final String EmployeeFindDept = BASEURL + "employee/findListByDeptId";
+    //根据id员工详情
+    public static final String EmployeeDetail = BASEURL + "employee/detail";
+    //添加人员认证信息
+    public static final String AuditAdd = BASEURL + "audit/add";
+    //重新添加人员认证信息
+    public static final String AuditReAdd = BASEURL + "audit/readd";
+    //获得所有人员认证信息
+    public static final String AuditList = BASEURL + "audit/list";
 
 
 }

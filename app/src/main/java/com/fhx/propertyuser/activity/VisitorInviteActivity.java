@@ -20,8 +20,12 @@ import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -136,13 +140,17 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
      */
 
     private void VisitorAdd(){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("guestName", et_visitor_name.getText().toString());
+        params.put("comeDay", tv_come_date.getText().toString());
+        params.put("guestPhone", et_visitor_phone.getText().toString());
+        params.put("room", et_room.getText().toString());
+        params.put("origin", tv_reason.getText().toString());
+        params.put("promoter",mmkv.decodeString("userPhone"));
+        JSONObject jsonObject = new JSONObject(params);
         EasyHttp.post(AppUrl.VisitorAdd)
                 .syncRequest(false)
-                .params("visitorName",et_visitor_name.getText().toString())
-                .params("visitDate",tv_come_date.getText().toString())
-                .params("visitorPhone",et_visitor_phone.getText().toString())
-                .params("roomNo",et_room.getText().toString())
-                .params("visitReason",tv_reason.getText().toString())
+                .upJson(jsonObject.toString())
                 .execute(new SimpleCallBack<String >() {
                     @Override
                     public void onError(ApiException e) {
@@ -153,8 +161,8 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                     public void onSuccess(String s) {
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
                         if (successBean.isSuccess()){
-                            ToastShort("提交成功");
-                            finishActivity();
+                            ToastShort("提交成功"+successBean.getData().toString());
+//                            finishActivity();
                         }else {
                             ToastShort(successBean.getMsg());
                         }

@@ -2,9 +2,10 @@ package com.fhx.propertyuser.bean;
 
 public class LoginBean {
 
+
     /**
      * success : true
-     * data : {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMzk4YzliYTVlYjdlMTg5YmRkNGMyMTUxMzJkODI3NiJ9.QfYWN5xUYMbr92liCHWHIg5EGf28OMtWw8WsQGh2cic","customer":{"customerId":"c398c9ba5eb7e189bdd4c215132d8276","customerName":null,"phone":"15738531698","password":"e10adc3949ba59abbe56e057f20f883e","phoneBackup":null,"peopleId":null,"company":null,"logoUrl":null,"notes":null,"status":null,"updateTime":null,"registerType":null}}
+     * data : {"people":{"peopleId":"5bceac80a92b24db853c4715772863ea","name":"我自己","sex":null,"phone":"15738531698","floor":null,"roomNo":null,"type":null,"notes":null,"createTime":null,"updateTime":null,"password":"e10adc3949ba59abbe56e057f20f883e"},"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YmNlYWM4MGE5MmIyNGRiODUzYzQ3MTU3NzI4NjNlYSIsImV4cCI6MTYwNTE3NjE0NSwiaWF0IjoxNjA1MTcyNTQ1fQ.LyV0iYgXnQ0jBw0BlhPzD1OAt3510-jhAtP-z96ED4o"}
      */
 
     private boolean success;
@@ -37,12 +38,20 @@ public class LoginBean {
 
     public static class DataBean {
         /**
-         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMzk4YzliYTVlYjdlMTg5YmRkNGMyMTUxMzJkODI3NiJ9.QfYWN5xUYMbr92liCHWHIg5EGf28OMtWw8WsQGh2cic
-         * customer : {"customerId":"c398c9ba5eb7e189bdd4c215132d8276","customerName":null,"phone":"15738531698","password":"e10adc3949ba59abbe56e057f20f883e","phoneBackup":null,"peopleId":null,"company":null,"logoUrl":null,"notes":null,"status":null,"updateTime":null,"registerType":null}
+         * people : {"peopleId":"5bceac80a92b24db853c4715772863ea","name":"我自己","sex":null,"phone":"15738531698","floor":null,"roomNo":null,"type":null,"notes":null,"createTime":null,"updateTime":null,"password":"e10adc3949ba59abbe56e057f20f883e"}
+         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YmNlYWM4MGE5MmIyNGRiODUzYzQ3MTU3NzI4NjNlYSIsImV4cCI6MTYwNTE3NjE0NSwiaWF0IjoxNjA1MTcyNTQ1fQ.LyV0iYgXnQ0jBw0BlhPzD1OAt3510-jhAtP-z96ED4o
          */
 
+        private PeopleBean people;
         private String token;
-        private CustomerBean customer;
+
+        public PeopleBean getPeople() {
+            return people;
+        }
+
+        public void setPeople(PeopleBean people) {
+            this.people = people;
+        }
 
         public String getToken() {
             return token;
@@ -52,57 +61,55 @@ public class LoginBean {
             this.token = token;
         }
 
-        public CustomerBean getCustomer() {
-            return customer;
-        }
-
-        public void setCustomer(CustomerBean customer) {
-            this.customer = customer;
-        }
-
-        public static class CustomerBean {
+        public static class PeopleBean {
             /**
-             * customerId : c398c9ba5eb7e189bdd4c215132d8276
-             * customerName : null
+             * peopleId : 5bceac80a92b24db853c4715772863ea
+             * name : 我自己
+             * sex : null
              * phone : 15738531698
-             * password : e10adc3949ba59abbe56e057f20f883e
-             * phoneBackup : null
-             * peopleId : null
-             * company : null
-             * logoUrl : null
+             * floor : null
+             * roomNo : null
+             * type : null
              * notes : null
-             * status : null
+             * createTime : null
              * updateTime : null
-             * registerType : null
+             * password : e10adc3949ba59abbe56e057f20f883e
              */
 
-            private String customerId;
-            private Object customerName;
+            private String peopleId;
+            private String name;
+            private Object sex;
             private String phone;
-            private String password;
-            private Object phoneBackup;
-            private Object peopleId;
-            private Object company;
-            private Object logoUrl;
+            private Object floor;
+            private Object roomNo;
+            private Object type;
             private Object notes;
-            private Object status;
+            private Object createTime;
             private Object updateTime;
-            private Object registerType;
+            private String password;
 
-            public String getCustomerId() {
-                return customerId;
+            public String getPeopleId() {
+                return peopleId;
             }
 
-            public void setCustomerId(String customerId) {
-                this.customerId = customerId;
+            public void setPeopleId(String peopleId) {
+                this.peopleId = peopleId;
             }
 
-            public Object getCustomerName() {
-                return customerName;
+            public String getName() {
+                return name;
             }
 
-            public void setCustomerName(Object customerName) {
-                this.customerName = customerName;
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Object getSex() {
+                return sex;
+            }
+
+            public void setSex(Object sex) {
+                this.sex = sex;
             }
 
             public String getPhone() {
@@ -113,44 +120,28 @@ public class LoginBean {
                 this.phone = phone;
             }
 
-            public String getPassword() {
-                return password;
+            public Object getFloor() {
+                return floor;
             }
 
-            public void setPassword(String password) {
-                this.password = password;
+            public void setFloor(Object floor) {
+                this.floor = floor;
             }
 
-            public Object getPhoneBackup() {
-                return phoneBackup;
+            public Object getRoomNo() {
+                return roomNo;
             }
 
-            public void setPhoneBackup(Object phoneBackup) {
-                this.phoneBackup = phoneBackup;
+            public void setRoomNo(Object roomNo) {
+                this.roomNo = roomNo;
             }
 
-            public Object getPeopleId() {
-                return peopleId;
+            public Object getType() {
+                return type;
             }
 
-            public void setPeopleId(Object peopleId) {
-                this.peopleId = peopleId;
-            }
-
-            public Object getCompany() {
-                return company;
-            }
-
-            public void setCompany(Object company) {
-                this.company = company;
-            }
-
-            public Object getLogoUrl() {
-                return logoUrl;
-            }
-
-            public void setLogoUrl(Object logoUrl) {
-                this.logoUrl = logoUrl;
+            public void setType(Object type) {
+                this.type = type;
             }
 
             public Object getNotes() {
@@ -161,12 +152,12 @@ public class LoginBean {
                 this.notes = notes;
             }
 
-            public Object getStatus() {
-                return status;
+            public Object getCreateTime() {
+                return createTime;
             }
 
-            public void setStatus(Object status) {
-                this.status = status;
+            public void setCreateTime(Object createTime) {
+                this.createTime = createTime;
             }
 
             public Object getUpdateTime() {
@@ -177,12 +168,12 @@ public class LoginBean {
                 this.updateTime = updateTime;
             }
 
-            public Object getRegisterType() {
-                return registerType;
+            public String getPassword() {
+                return password;
             }
 
-            public void setRegisterType(Object registerType) {
-                this.registerType = registerType;
+            public void setPassword(String password) {
+                this.password = password;
             }
         }
     }

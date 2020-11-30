@@ -116,7 +116,10 @@
         <!--通讯录-->
         <activity android:name=".activity.ContactsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <!--通讯录-->
+        <!--通讯录子部门列表-->
+        <activity android:name=".activity.ContactsListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--通讯录人员详情-->
         <activity android:name=".activity.ContactsMsgActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 

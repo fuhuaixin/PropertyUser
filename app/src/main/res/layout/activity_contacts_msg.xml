@@ -69,6 +69,7 @@
                     android:src="@mipmap/icon_default_header" />
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -77,6 +78,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_dutyName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -113,11 +115,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:text="联系方式:"
+                android:text="员工编号:"
                 android:textColor="@color/tv21"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_employeeNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="哇哈哈"
@@ -142,11 +145,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:text="所属部门:"
+                android:text="联系电话:"
                 android:textColor="@color/tv21"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_phone"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="哇哈哈"
@@ -160,6 +165,93 @@
             android:background="@color/col_bg" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="邮箱:"
+                android:textColor="@color/tv21"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哇哈哈"
+                android:textColor="@color/tv888"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/col_bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="民族:"
+                android:textColor="@color/tv21"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_nation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哇哈哈"
+                android:textColor="@color/tv888"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/col_bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="生日:"
+                android:textColor="@color/tv21"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哇哈哈"
+                android:textColor="@color/tv888"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -184,11 +276,13 @@
         </LinearLayout>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/col_bg" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
