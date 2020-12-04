@@ -29,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="title"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/tv21"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -46,6 +48,7 @@
             android:textSize="11sp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_page_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

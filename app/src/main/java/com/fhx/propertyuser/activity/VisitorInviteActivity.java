@@ -15,6 +15,7 @@ import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.bean.SuccessBean;
+import com.fhx.propertyuser.utils.CutToUtils;
 import com.fhx.propertyuser.utils.ListDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -71,9 +72,9 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
         year = c.get(Calendar.YEAR);
         mouth = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-        mEventTypeList.add("面试");
-        mEventTypeList.add("洽谈");
-        mEventTypeList.add("会友");
+        mEventTypeList.add("外卖快递");
+        mEventTypeList.add("面试求职");
+        mEventTypeList.add("朋友会客");
         mEventTypeList.add("其他");
         listDialog = new ListDialog(this, mEventTypeList, new ListDialog.LeaveMyDialogListener() {
             @Override
@@ -161,7 +162,7 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                     public void onSuccess(String s) {
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
                         if (successBean.isSuccess()){
-                            ToastShort("提交成功"+successBean.getData().toString());
+                            CutToUtils.getInstance().JumpToTwo(VisitorInviteActivity.this,WebActivity.class,"访客邀约",successBean.getData().toString());
 //                            finishActivity();
                         }else {
                             ToastShort(successBean.getMsg());

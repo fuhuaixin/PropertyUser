@@ -1,5 +1,6 @@
 package com.fhx.propertyuser.activity.mine;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -129,6 +130,14 @@ public class PersonalAttestationActivity extends BaseActivity implements View.On
                 finishActivity();
                 break;
             case R.id.tv_commit:
+                if (TextUtils.isEmpty(et_name.getText().toString())){
+                    ToastShort("请输入姓名");
+                    return;
+                }
+                if (TextUtils.isEmpty(et_roomNo.getText().toString())){
+                    ToastShort("请输入房间号");
+                    return;
+                }
                 commit();
                 break;
             case R.id.tv_msg:

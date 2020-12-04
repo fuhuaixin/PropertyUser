@@ -20,8 +20,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.event.EventLeaveComBean;
 import com.fhx.propertyuser.fragment.time.DateFragment;
 import com.fhx.propertyuser.fragment.time.TimeFragment;
+import com.tencent.mmkv.MMKV;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,8 @@ public class DateAndTimeDialog extends DialogFragment {
     private TextView tv_sure;
     private RadioGroup rg_time;
     private List<Fragment> fragments = new ArrayList<>();
-
+    private MMKV mmkv;
+    private String tag;
 
     @Nullable
     @Override
@@ -56,6 +61,9 @@ public class DateAndTimeDialog extends DialogFragment {
 
     }
 
+    public DateAndTimeDialog(String tag) {
+        this.tag = tag;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -66,10 +74,12 @@ public class DateAndTimeDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //设置dialog的大小
+        mmkv = MMKV.defaultMMKV();
+
         rg_time = view.findViewById(R.id.rg_time);
         tv_sure = view.findViewById(R.id.tv_sure);
         //设置dialog的大小
-
         initData();
         initListener();
     }
@@ -114,6 +124,12 @@ public class DateAndTimeDialog extends DialogFragment {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String message = mmkv.decodeString("chooseDate") + " " + mmkv.decodeString("chooseTime");
+
+                EventLeaveComBean eventLeaveComBean = new EventLeaveComBean();
+                eventLeaveComBean.setTag(tag);
+                eventLeaveComBean.setTime(message);
+                EventBus.getDefault().post(eventLeaveComBean);
                 dismiss();
             }
         });

@@ -64,4 +64,6 @@ dependencies {
     implementation 'com.github.giswangsj:AndRatingBar:1.0.4'
     //代替sp做本地存取
     implementation 'com.tencent:mmkv:1.2.2'
+    //微信
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

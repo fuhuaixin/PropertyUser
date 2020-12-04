@@ -1,7 +1,15 @@
 package com.fhx.propertyuser.base;
 
+import android.annotation.TargetApi;
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.provider.SyncStateContract;
 import android.util.Log;
 
 import com.fhx.propertyuser.R;
@@ -12,6 +20,9 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.mmkv.MMKV;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.GsonDiskConverter;
@@ -20,6 +31,12 @@ import static com.scwang.smartrefresh.layout.SmartRefreshLayout.setDefaultRefres
 import static com.scwang.smartrefresh.layout.SmartRefreshLayout.setDefaultRefreshHeaderCreator;
 
 public class BaseApplication extends Application {
+
+    // APP_ID 替换为你的应用从官方网站申请到的合法appID
+    public static final String APP_ID = "wx88888888";
+    // IWXAPI 是第三方app和微信通信的openApi接口
+    private IWXAPI api;
+
     static {
         //设置全局的Header构建器
         setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
@@ -42,7 +59,6 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
 
         //网络请求
         EasyHttp.init(this);//默认初始化,必须调用
@@ -74,5 +90,50 @@ public class BaseApplication extends Application {
         //MMKV 本地存取数据 代替sp
         String initMMKV = MMKV.initialize(this);
         Log.e("MMKV 初始化", initMMKV);
+
+        regToWx();
+
+        //设置通知类型
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "chat";
+            String channelName = "聊天消息";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotificationChannel(channelId, channelName, importance);
+
+            channelId = "subscribe";
+            channelName = "订阅消息";
+            importance = NotificationManager.IMPORTANCE_DEFAULT;
+            createNotificationChannel(channelId, channelName, importance);
+        }
+
     }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    //注册到微信
+    private void regToWx() {
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+
+        // 将应用的appId注册到微信
+        api.registerApp(APP_ID);
+
+        //建议动态监听微信启动广播进行注册到微信
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // 将该app注册到微信
+                api.registerApp(APP_ID);
+            }
+        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+
+    }
+
 }

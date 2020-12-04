@@ -9,12 +9,22 @@ public class InformListBean extends BaseBean {
     private String title;
     private String time;
     private String pageView; //浏览量
+    private String newId; //
 
-    public InformListBean(int ifRead, String title, String time, String pageView) {
+    public InformListBean(int ifRead, String title, String time, String newId) {
         this.ifRead = ifRead;
         this.title = title;
         this.time = time;
-        this.pageView = pageView;
+        this.newId = newId;
+    }
+
+
+    public String getNewId() {
+        return newId;
+    }
+
+    public void setNewId(String newId) {
+        this.newId = newId;
     }
 
     public int getIfRead() {

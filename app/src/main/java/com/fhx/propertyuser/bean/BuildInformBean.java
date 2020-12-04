@@ -12,16 +12,24 @@ public class BuildInformBean extends BaseBean implements MultiItemEntity {
     private String title;
     private String msg;
     private String time;
+    private String newsId;
 
 
 
-
-
-    public BuildInformBean(int itemType,String title, String msg, String time) {
+    public BuildInformBean(int itemType,String title, String msg, String time,String newsId) {
         this.title = title;
         this.msg = msg;
         this.time = time;
+        this.newsId = newsId;
         this.itemType = itemType;
+    }
+
+    public String getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
     }
 
     public String getTitle() {

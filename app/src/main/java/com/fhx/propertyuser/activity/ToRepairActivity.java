@@ -1,6 +1,10 @@
 package com.fhx.propertyuser.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -9,19 +13,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.adapter.ImageChooseAdapter;
 import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.bean.RepairTypeListBean;
 import com.fhx.propertyuser.bean.SuccessBean;
 import com.fhx.propertyuser.utils.ListDialog;
+import com.scrat.app.selectorlibrary.ImageSelector;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 import com.zhouyou.http.request.PostRequest;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,11 +48,20 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
     private TextView tv_eventType, tv_reserveTime, tv_toPay;
     private ListDialog listDialog;
     private EditText et_user_number, et_user_name, et_content, et_notes;
+    private RecyclerView recycle_image;
 
     private List<String> mEventTypeList = new ArrayList<>();
     private List<String> mEventTypeIdList = new ArrayList<>();
     private Calendar c;//获取当前时间
     private String eventTypeId;
+    private ImageChooseAdapter imageChooseAdapter;
+    private List<String> mImageList = new ArrayList<>(); //上传图列表
+    private ListDialog chooseImageDialog; //相机 和选择图片弹窗
+    private List<String> chooseImageList =new ArrayList<>(); //相机和选择图片list
+
+    private static final int REQUEST_CODE_SELECT_IMG = 1;
+    private static final int REQUEST_CAMERA = 2;
+    private static final int MAX_SELECT_COUNT = 3;
 
     @Override
     protected int initLayout() {
@@ -60,6 +81,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         et_user_name = (EditText) findViewById(R.id.et_user_name);
         et_content = (EditText) findViewById(R.id.et_content);
         et_notes = (EditText) findViewById(R.id.et_notes);
+        recycle_image = (RecyclerView) findViewById(R.id.recycle_image);
 
     }
 
@@ -69,7 +91,30 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         c.setTimeInMillis(System.currentTimeMillis());
         tvTitle.setText("我要报修");
         getEventType();
+//        mImageList.add(new ImageChooseBean(""));
+//        mImageList.add("https://pic2.zhimg.com/80/v2-e110c4ec6cbc6b51f1bac346d4d85ab1_720w.jpg?source=1940ef5c");
+//        mImageList.add("https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1607051127&di=f92c2a09c2c59fd1babe4b08d33db909&src=http://guaihaha.com/upload/article/201610/23/162019580c72c3cee44SlMgRP.jpg");
+        recycle_image.setLayoutManager(new GridLayoutManager(this, 3));
+        imageChooseAdapter = new ImageChooseAdapter(this, mImageList);
+        recycle_image.setAdapter(imageChooseAdapter);
 
+
+        chooseImageList.add("相机");
+        chooseImageList.add("图片选择");
+        chooseImageDialog = new ListDialog(ToRepairActivity.this, chooseImageList, new ListDialog.LeaveMyDialogListener() {
+            @Override
+            public void onClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (position){
+                    case 0:
+                        useCamera();
+                        break;
+                    case 1:
+                        ImageSelector.show(ToRepairActivity.this, REQUEST_CODE_SELECT_IMG, MAX_SELECT_COUNT - mImageList.size());
+                        break;
+                }
+                chooseImageDialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -78,6 +123,20 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         ll_event_type.setOnClickListener(this);
         ll_reserveTime.setOnClickListener(this);
         tv_toPay.setOnClickListener(this);
+        imageChooseAdapter.setClickListener(new ImageChooseAdapter.OnItemClickListener() {
+
+            @Override
+            public void onAdd(View view, int position) {
+                chooseImageDialog.show();
+            }
+
+            @Override
+            public void onDel(View view, int position) {
+//                ToastShort("点击了del" + position);
+                mImageList.remove(position);
+                chooseSize();
+            }
+        });
     }
 
     @Override
@@ -134,6 +193,71 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                 postRepair();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
+            Log.e("TAG", "拍照---------" + FileProvider.getUriForFile(this, "com.fhx.propertyuser.provider", file));
+            Log.e("TAG", "拍照---------" + file);
+//            imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            mImageList.add(file.getAbsolutePath());
+            chooseSize();
+//            upImage(file);
+            //在手机相册中显示刚拍摄的图片
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(file);
+            mediaScanIntent.setData(contentUri);
+            sendBroadcast(mediaScanIntent);
+        } else if (requestCode == REQUEST_CODE_SELECT_IMG) {
+            showContent(data);
+            chooseSize();
+            return;
+        }
+
+    }
+
+    /**
+     * 初始化相机相关权限
+     * 适配6.0+手机的运行时权限
+     */
+    private File file;
+
+    private void useCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/images/" + System.currentTimeMillis() + ".jpg");
+        file.getParentFile().mkdirs();
+        //改变Uri com.fhx.property.provider注意和xml中的一致
+        Uri uri = FileProvider.getUriForFile(this, "com.fhx.propertyuser.provider", file);
+        //添加权限
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+    /**
+     * 选择图片回调
+     *
+     * @param data
+     */
+    private void showContent(Intent data) {
+        List<String> paths = ImageSelector.getImagePaths(data);
+
+        if (paths.isEmpty()) {
+            for (int i = 0; i < paths.size(); i++) {
+                mImageList.add(paths.get(i));
+            }
+            return;
+        }
+
+        for (int i = 0; i < paths.size(); i++) {
+            mImageList.add(paths.get(i));
+        }
+    }
+    private void chooseSize() {
+
+        imageChooseAdapter.notifyDataSetChanged();
     }
 
     /**

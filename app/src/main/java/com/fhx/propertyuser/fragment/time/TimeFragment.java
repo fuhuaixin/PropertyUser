@@ -32,7 +32,13 @@ public class TimeFragment extends BaseFragment {
         timePacker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                Toast.makeText(getContext(), hourOfDay+":"+minute, Toast.LENGTH_SHORT).show();
+                if (minute==0){
+                    mmkv.encode("chooseTime",hourOfDay+":00:00");
+                }else if (hourOfDay==0){
+                    mmkv.encode("chooseTime","00"+":"+minute+":00");
+                }else {
+                    mmkv.encode("chooseTime",hourOfDay+":"+minute+":00");
+                }
             }
         });
     }

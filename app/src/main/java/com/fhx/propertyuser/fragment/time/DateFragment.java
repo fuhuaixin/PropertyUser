@@ -33,7 +33,20 @@ public class DateFragment extends BaseFragment {
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getContext(), year+"年"+month+"月"+dayOfMonth, Toast.LENGTH_SHORT).show();
+                String mMonth = null;
+                String day = null;
+                if (month<9){
+                    mMonth="0"+(month+1);
+                }else {
+                    mMonth = String.valueOf((month+1));
+                }
+                if (dayOfMonth<10){
+                    day="0"+dayOfMonth;
+                }else {
+                    day = String.valueOf(dayOfMonth);
+                }
+                mmkv.encode("chooseDate",year+"-"+mMonth+"-"+day);
+
                 DateTimeChange.sChangeFragment.change(1);
             }
         });

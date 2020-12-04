@@ -1,6 +1,7 @@
 package com.fhx.propertyuser.activity;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -21,6 +22,7 @@ import com.fhx.propertyuser.base.BaseActivity;
 public class WebActivity extends BaseActivity {
     private TextView tvTitle;
     private ImageView imageLeft;
+    private ImageView imageRight;
     private WebView webView;
 
     private String title,url;
@@ -35,9 +37,14 @@ public class WebActivity extends BaseActivity {
     protected void initView() {
         tvTitle = (TextView) findViewById(R.id.tv_title);
         imageLeft = (ImageView) findViewById(R.id.image_back);
+        imageRight = (ImageView) findViewById(R.id.image_right);
         webView = (WebView) findViewById(R.id.webview);
         title =getIntent().getStringExtra("jumpOne");
         url =getIntent().getStringExtra("jumpTwo");
+        Log.e("fhxx",url);
+        if (title.equals("访客邀约")){
+            imageRight.setImageResource(R.mipmap.icon_share);
+        }
     }
 
     @Override
@@ -46,6 +53,9 @@ public class WebActivity extends BaseActivity {
         tvTitle.setText(title);
         settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setUseWideViewPort(true); //将图片调整到适合webview的大小
+
+        settings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -81,6 +91,13 @@ public class WebActivity extends BaseActivity {
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
+            }
+        });
+
+        imageRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastShort("分享");
             }
         });
     }
