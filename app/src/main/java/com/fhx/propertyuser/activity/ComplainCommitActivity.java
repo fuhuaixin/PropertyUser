@@ -89,6 +89,9 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
 
     }
 
+    String mMonth = null;
+    String chooseDay = null;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -100,7 +103,18 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
                 new DatePickerDialog(ComplainCommitActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        tv_happen_time.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+
+                        if (month < 9) {
+                            mMonth = "0" + (month + 1);
+                        } else {
+                            mMonth = String.valueOf((month + 1));
+                        }
+                        if (dayOfMonth < 10) {
+                            chooseDay = "0" + dayOfMonth;
+                        } else {
+                            chooseDay = String.valueOf(dayOfMonth);
+                        }
+                        tv_happen_time.setText(year + "-" + mMonth + "-" + chooseDay);
                     }
                 }, year, mouth, day).show();
                 break;
@@ -108,7 +122,17 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
                 new DatePickerDialog(ComplainCommitActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        tv_hope_Time.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        if (month < 9) {
+                            mMonth = "0" + (month + 1);
+                        } else {
+                            mMonth = String.valueOf((month + 1));
+                        }
+                        if (dayOfMonth < 10) {
+                            chooseDay = "0" + dayOfMonth;
+                        } else {
+                            chooseDay = String.valueOf(dayOfMonth);
+                        }
+                        tv_hope_Time.setText(year + "-" + mMonth + "-" + chooseDay);
                     }
                 }, year, mouth, day).show();
                 break;
@@ -184,8 +208,6 @@ public class ComplainCommitActivity extends BaseActivity implements View.OnClick
                     }
                 });
     }
-
-
 
 
     /**

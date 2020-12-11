@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.fhx.propertyuser.MainActivity;
 import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.activity.login.LoginActivity;
+import com.tencent.mmkv.MMKV;
 
 public class ResultTipDialog extends Dialog {
 
@@ -26,6 +27,7 @@ public class ResultTipDialog extends Dialog {
 
     private String type;
     private Activity activity;
+    private MMKV mmkv;
 
     public ResultTipDialog(@NonNull Activity context, String type) {
         super(context, R.style.TipDialog);
@@ -37,6 +39,7 @@ public class ResultTipDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_result_tip);
+        mmkv =MMKV.defaultMMKV();
         setCancelable(false);
         initViews();
         initDatas();
@@ -60,6 +63,10 @@ public class ResultTipDialog extends Dialog {
                 @Override
                 public void onClick(View v) {
                     ActivityControl.getInstance().closeAll();
+                    mmkv.removeValueForKey("token");
+                    mmkv.removeValueForKey("customerId");
+                    mmkv.removeValueForKey("userPhone");
+                    mmkv.removeValueForKey("password");
                     CutToUtils.getInstance().JumpTo(activity, LoginActivity.class);
                 }
             });

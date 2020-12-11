@@ -173,6 +173,7 @@ public class RepairListBean extends BaseBean {
              * content : 这是我的问题描述
              * status : 0
              * originType : 1
+             * urgeTimes://催办
              */
 
             private String repairId;
@@ -191,6 +192,15 @@ public class RepairListBean extends BaseBean {
             private String content;
             private String status;
             private String originType;
+            private int urgeTimes;
+
+            public int getUrgeTimes() {
+                return urgeTimes;
+            }
+
+            public void setUrgeTimes(int urgeTimes) {
+                this.urgeTimes = urgeTimes;
+            }
 
             public String getRepairId() {
                 return repairId;

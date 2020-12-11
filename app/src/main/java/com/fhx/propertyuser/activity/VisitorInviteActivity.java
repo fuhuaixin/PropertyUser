@@ -36,7 +36,7 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
     private ImageView imageBack;
     private TextView tvTitle;
     private EditText et_visitor_name, et_visitor_phone, et_room;
-    private TextView tv_come_date, tv_reason,tv_commit;
+    private TextView tv_come_date, tv_reason, tv_commit;
 
     private Calendar c;//获取当前时间
     int year;
@@ -110,24 +110,36 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                 new DatePickerDialog(VisitorInviteActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        tv_come_date.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        String mMonth = null;
+                        String day = null;
+                        if (month < 9) {
+                            mMonth = "0" + (month + 1);
+                        } else {
+                            mMonth = String.valueOf((month + 1));
+                        }
+                        if (dayOfMonth < 10) {
+                            day = "0" + dayOfMonth;
+                        } else {
+                            day = String.valueOf(dayOfMonth);
+                        }
+                        tv_come_date.setText(year + "-" + mMonth + "-" + day);
                     }
                 }, year, mouth, day).show();
                 break;
             case R.id.tv_commit:
-                if (TextUtils.isEmpty(et_visitor_name.getText().toString())){
+                if (TextUtils.isEmpty(et_visitor_name.getText().toString())) {
                     ToastShort("请输入访客姓名");
                     return;
                 }
-                if (TextUtils.isEmpty(et_visitor_phone.getText().toString())){
+                if (TextUtils.isEmpty(et_visitor_phone.getText().toString())) {
                     ToastShort("请输入访客电话");
                     return;
                 }
-                if (tv_come_date.getText().toString().equals("请选择 >")){
+                if (tv_come_date.getText().toString().equals("请选择 >")) {
                     ToastShort("请选择来访日期");
                     return;
                 }
-                if (tv_reason.getText().toString().equals("请选择 >")){
+                if (tv_reason.getText().toString().equals("请选择 >")) {
                     ToastShort("请选择来访事由");
                     return;
                 }
@@ -140,31 +152,31 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
      * 提交访客邀约
      */
 
-    private void VisitorAdd(){
+    private void VisitorAdd() {
         HashMap<String, String> params = new HashMap<>();
         params.put("guestName", et_visitor_name.getText().toString());
         params.put("comeDay", tv_come_date.getText().toString());
         params.put("guestPhone", et_visitor_phone.getText().toString());
         params.put("room", et_room.getText().toString());
         params.put("origin", tv_reason.getText().toString());
-        params.put("promoter",mmkv.decodeString("userPhone"));
+        params.put("promoter", mmkv.decodeString("userPhone"));
         JSONObject jsonObject = new JSONObject(params);
         EasyHttp.post(AppUrl.VisitorAdd)
                 .syncRequest(false)
                 .upJson(jsonObject.toString())
-                .execute(new SimpleCallBack<String >() {
+                .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     @Override
                     public void onSuccess(String s) {
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
-                        if (successBean.isSuccess()){
-                            CutToUtils.getInstance().JumpToTwo(VisitorInviteActivity.this,WebActivity.class,"访客邀约",successBean.getData().toString());
+                        if (successBean.isSuccess()) {
+                            CutToUtils.getInstance().JumpToTwo(VisitorInviteActivity.this, WebActivity.class, "访客邀约", successBean.getData().toString());
 //                            finishActivity();
-                        }else {
+                        } else {
                             ToastShort(successBean.getMsg());
                         }
                     }

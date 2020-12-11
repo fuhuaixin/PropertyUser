@@ -3,6 +3,7 @@ package com.fhx.propertyuser.activity.mine;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class CarManageActivity extends BaseActivity implements View.OnClickListe
     private RecyclerView recycle_car;
     private CarManageAdapter carManageAdapter;
     private List<CarManageBean.DataBean.RecordsBean> manageList = new ArrayList<>();
+    private LinearLayout ll_null;
     private CommonDialog commonDialog;
 
     @Override
@@ -49,12 +51,12 @@ public class CarManageActivity extends BaseActivity implements View.OnClickListe
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tv_add_car = (TextView) findViewById(R.id.tv_add_car);
         recycle_car = (RecyclerView) findViewById(R.id.recycle_car);
+        ll_null = (LinearLayout) findViewById(R.id.ll_null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         getCarList();
     }
 
@@ -127,6 +129,11 @@ public class CarManageActivity extends BaseActivity implements View.OnClickListe
                         if (carManageBean.isSuccess()) {
                             manageList.clear();
                             manageList.addAll(carManageBean.getData().getRecords());
+                            if (manageList.size()>0){
+                                ll_null.setVisibility(View.GONE);
+                            }else {
+                                ll_null.setVisibility(View.VISIBLE);
+                            }
                             carManageAdapter.notifyDataSetChanged();
                         } else {
                             ToastShort(carManageBean.getMsg());

@@ -26,9 +26,11 @@ import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.bean.RepairTypeListBean;
 import com.fhx.propertyuser.bean.SuccessBean;
+import com.fhx.propertyuser.bean.UpLoadImageBean;
 import com.fhx.propertyuser.utils.ListDialog;
 import com.scrat.app.selectorlibrary.ImageSelector;
 import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.body.UIProgressResponseCallBack;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 import com.zhouyou.http.request.PostRequest;
@@ -37,6 +39,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 /**
  * 我要报修
@@ -57,11 +62,13 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
     private ImageChooseAdapter imageChooseAdapter;
     private List<String> mImageList = new ArrayList<>(); //上传图列表
     private ListDialog chooseImageDialog; //相机 和选择图片弹窗
-    private List<String> chooseImageList =new ArrayList<>(); //相机和选择图片list
+    private List<String> chooseImageList = new ArrayList<>(); //相机和选择图片list
+    private List<String> UpImageList = new ArrayList<>(); //压缩上传图片列表
 
     private static final int REQUEST_CODE_SELECT_IMG = 1;
     private static final int REQUEST_CAMERA = 2;
     private static final int MAX_SELECT_COUNT = 3;
+
 
     @Override
     protected int initLayout() {
@@ -90,6 +97,8 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         tvTitle.setText("我要报修");
+
+
         getEventType();
 //        mImageList.add(new ImageChooseBean(""));
 //        mImageList.add("https://pic2.zhimg.com/80/v2-e110c4ec6cbc6b51f1bac346d4d85ab1_720w.jpg?source=1940ef5c");
@@ -104,7 +113,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         chooseImageDialog = new ListDialog(ToRepairActivity.this, chooseImageList, new ListDialog.LeaveMyDialogListener() {
             @Override
             public void onClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         useCamera();
                         break;
@@ -134,9 +143,11 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
             public void onDel(View view, int position) {
 //                ToastShort("点击了del" + position);
                 mImageList.remove(position);
+                UpImageList.remove(position);
                 chooseSize();
             }
         });
+
     }
 
     @Override
@@ -165,7 +176,19 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                tv_reserveTime.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                                String mMonth = null;
+                                String day = null;
+                                if (month < 9) {
+                                    mMonth = "0" + (month + 1);
+                                } else {
+                                    mMonth = String.valueOf((month + 1));
+                                }
+                                if (dayOfMonth < 10) {
+                                    day = "0" + dayOfMonth;
+                                } else {
+                                    day = String.valueOf(dayOfMonth);
+                                }
+                                tv_reserveTime.setText(year + "-" + mMonth + "-" + day);
                             }
                         }, year, mouth, day).show();
                 break;
@@ -202,17 +225,10 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
             Log.e("TAG", "拍照---------" + FileProvider.getUriForFile(this, "com.fhx.propertyuser.provider", file));
             Log.e("TAG", "拍照---------" + file);
 //            imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-            mImageList.add(file.getAbsolutePath());
-            chooseSize();
-//            upImage(file);
-            //在手机相册中显示刚拍摄的图片
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(file);
-            mediaScanIntent.setData(contentUri);
-            sendBroadcast(mediaScanIntent);
+            Luban(file);
+
         } else if (requestCode == REQUEST_CODE_SELECT_IMG) {
             showContent(data);
-            chooseSize();
             return;
         }
 
@@ -236,6 +252,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
+
     /**
      * 选择图片回调
      *
@@ -252,12 +269,46 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         }
 
         for (int i = 0; i < paths.size(); i++) {
-            mImageList.add(paths.get(i));
+            File file = new File(paths.get(i));
+            Luban(file);
         }
-    }
-    private void chooseSize() {
 
+    }
+
+    private void chooseSize() {
         imageChooseAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 鲁班图片压缩
+     *
+     * @param file
+     */
+    private void Luban(File file) {
+        Luban.with(ToRepairActivity.this)
+                .load(file)
+                .ignoreBy(100)
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+                        Log.e("luban", "onStart");
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        Log.e("luban", file.getAbsolutePath());
+                        upImage(file);
+                        mImageList.add(file.getAbsolutePath());
+                        chooseSize();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("luban", e.getMessage());
+
+                    }
+                })
+                .launch();
     }
 
     /**
@@ -295,6 +346,23 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
      * 提交报修表单
      */
     private void postRepair() {
+        String images = "";
+        if (UpImageList.size() > 0) {
+            for (int i = 0; i < UpImageList.size(); i++) {
+                switch (i) {
+                    case 0:
+                        images = UpImageList.get(0);
+                        break;
+                    case 1:
+                        images = UpImageList.get(0) + "," + UpImageList.get(1);
+                        break;
+                    case 2:
+                        images = UpImageList.get(0) + "," + UpImageList.get(1) + "," + UpImageList.get(2);
+                        break;
+                }
+            }
+        }
+
         PostRequest post = EasyHttp.post(AppUrl.RepairAdd);
         if (!tv_reserveTime.getText().toString().equals("请选择")) {
             post.params("reserveTime", tv_reserveTime.getText().toString());//预约事件
@@ -308,6 +376,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                 .params("content", et_content.getText().toString())//描述
                 .params("notes", et_notes.getText().toString())//地址
                 .params("customerId", mmkv.decodeString("customerId")) //用户id
+                .params("imgs",images)
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
@@ -329,4 +398,37 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    /**
+     * 图片上传
+     */
+    private void upImage(File file) {
+        UIProgressResponseCallBack uiProgressResponseCallBack = new UIProgressResponseCallBack() {
+            @Override
+            public void onUIResponseProgress(long bytesRead, long contentLength, boolean done) {
+                int progress = (int) (bytesRead * 100 / contentLength);
+                Log.e("fhxx", "上传" + progress);
+                if (done) {
+                    ToastShort("上传成功");
+                }
+            }
+        };
+        EasyHttp.post(AppUrl.ImageUpLoad)
+                .syncRequest(false)
+                .timeStamp(true)
+                .params("file", file, uiProgressResponseCallBack)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("imageError", e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        UpLoadImageBean successBean = JSON.parseObject(s, UpLoadImageBean.class);
+                        if (successBean.isSuccess()) {
+                            UpImageList.add(successBean.getData().getUrl());
+                        }
+                    }
+                });
+    }
 }

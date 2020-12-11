@@ -14,7 +14,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/include_title" />
+    <LinearLayout
+        android:id="@+id/ll_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/image_null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无数据"
+            android:textColor="@color/tv333"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_add_car"

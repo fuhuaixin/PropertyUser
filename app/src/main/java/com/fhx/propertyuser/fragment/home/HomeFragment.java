@@ -1,8 +1,16 @@
 package com.fhx.propertyuser.fragment.home;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.FileUtils;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,17 +47,25 @@ import com.fhx.propertyuser.base.BaseFragment;
 import com.fhx.propertyuser.bean.AuditResultBean;
 import com.fhx.propertyuser.bean.HomeCenterBean;
 import com.fhx.propertyuser.bean.NewsListBean;
+import com.fhx.propertyuser.bean.NotificationListBean;
 import com.fhx.propertyuser.utils.CommonDialog;
 import com.fhx.propertyuser.utils.CutToUtils;
 import com.fhx.propertyuser.utils.NotificationUtil;
+import com.fhx.propertyuser.utils.UpdatePhotoAlbumUtil;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.HolderCreator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.banner.ScaleInTransformer;
 import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.DownloadProgressCallBack;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +139,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         recycle_inform.setAdapter(informAdapter);
 
         UserAnnounce();//首页通知公告获取
+        MessageList();//首页获取推送通知一条
     }
 
     @Override
@@ -234,11 +251,54 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 CutToUtils.getInstance().JumpTo(getActivity(), InformListActivity.class);
                 break;
             case R.id.tv_inform:
-//                sendChatMsg();
-                CutToUtils.getInstance().JumpTo(getActivity(), NotificationActivity.class);
+              /* //拉起微信
+                Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setComponent(lan.getComponent());
+                startActivity(intent);*/
+//                CutToUtils.getInstance().JumpTo(getActivity(), NotificationActivity.class);
+                downLodeImage();
                 break;
         }
     }
+
+    private void downLodeImage(){
+        String imageUrl = "http://a3.att.hudong.com/64/52/01300000407527124482522224765.jpg";
+        EasyHttp.downLoad(imageUrl)
+                .saveName("shareImage.png")//不设置默认名字是时间戳生成的
+                .execute(new DownloadProgressCallBack<String>() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void update(long bytesRead, long contentLength, boolean done) {
+
+                    }
+
+                    @Override
+                    public void onComplete(String path) {
+                        //下载完成，path：下载文件保存的完整路径
+                        Log.e("downLode",path);
+                        File file = new File(path);
+                        UpdatePhotoAlbumUtil.updatePhotoAlbum(getContext(),file);
+                    }
+                });
+
+    }
+
+
+
+
+
 
     /**
      * 获取认证状态接口
@@ -306,6 +366,36 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                             informAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(mActivity, newsListBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取推送 通知 列表
+     * 首页展示一条
+     */
+    private void MessageList(){
+        EasyHttp.get(AppUrl.MessageList)
+                .params("pageNum", "1")
+                .params("pageSize","1")
+//                .params("accepter",mmkv.decodeString("userPhone"))
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+
+                        NotificationListBean notificationListBean = JSON.parseObject(s, NotificationListBean.class);
+                        if (notificationListBean.isSuccess()){
+                            if (notificationListBean.getData()!=null){
+                                tv_inform.setText(notificationListBean.getData().getRecords().get(0).getMessageContent());
+                            }
+                        }else {
+                            Toast.makeText(mActivity, notificationListBean.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

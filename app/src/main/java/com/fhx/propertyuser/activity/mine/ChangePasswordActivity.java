@@ -1,15 +1,22 @@
 package com.fhx.propertyuser.activity.mine;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.fhx.propertyuser.MainActivity;
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
+import com.fhx.propertyuser.bean.SuccessBean;
 import com.fhx.propertyuser.utils.ActivityControl;
 import com.fhx.propertyuser.utils.ResultTipDialog;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 /**
  * 个人中心 修改密码
@@ -59,7 +66,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
                 if (!hasFocus){
                     String s = et_old.getText().toString();
                     image_old_choose.setVisibility(View.VISIBLE);
-                    if (s.length()>0&&s.equals("123456")){
+                    if (s.length()>0&&s.equals(mmkv.decodeString("password"))){
                         tv_old_tip.setVisibility(View.GONE);
                         image_old_choose.setImageResource(R.mipmap.icon_edit_true);
                     }else {
@@ -104,12 +111,42 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
 
                 break;
             case R.id.tv_update:
-                resultTipDialog
-                        .setTitle("密码修改成功")
-                        .setImageHeader(R.mipmap.icon_big_true)
-                        .setMsg("立即登录")
-                        .show();
+                if (!et_old.getText().toString().equals(mmkv.decodeString("password"))){
+                    ToastShort("旧密码不正确");
+                    return;
+                }
+                if (!et_new.getText().toString().equals(et_new_again.getText().toString())){
+                    ToastShort("两次密码输入不一致");
+                    return;
+                }
+                changePassWord();
                 break;
         }
+    }
+
+    private void changePassWord(){
+        EasyHttp.put(AppUrl.ChangePassWord)
+                .params("peopleId",mmkv.decodeString("customerId"))
+                .params("password",et_new_again.getText().toString())
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
+                        if (successBean.isSuccess()){
+                            resultTipDialog
+                                    .setTitle("密码修改成功")
+                                    .setImageHeader(R.mipmap.icon_big_true)
+                                    .setMsg("立即登录")
+                                    .show();
+                        }else {
+                            ToastShort(successBean.getMsg());
+                        }
+                    }
+                });
     }
 }

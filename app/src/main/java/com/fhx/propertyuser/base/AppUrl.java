@@ -3,15 +3,17 @@ package com.fhx.propertyuser.base;
 public class AppUrl {
 
     public static final String BASEURL = "http://192.168.10.50:8083/"; //测试(测试环境)
-//    public static final String BASEURL = "http://192.168.10.127:8083/"; //测试(测试环境)
+//    public static final String BASEURL = "http://192.168.10.241:8083/"; //测试(测试环境)
 
     //通知公告 资讯 baseUrl
-    public static final String NEWSTITLEURL ="http://192.168.10.50:8055/smartbuilding_light/#/newsshow?id=";
+    public static final String NEWSTITLEURL = "http://192.168.10.50:8055/smartbuilding_light/#/newsshow?id=";
 
     //注册
     public static final String Register = BASEURL + "people/register";
     //用户端App登录
     public static final String Login = BASEURL + "people/appUser";
+    //修改密码
+    public static final String ChangePassWord = BASEURL + "people/modifyPwd";
 
     //用户验证手机号是否已经注册过
     public static final String CheckExist = BASEURL + "customer/checkExist";
@@ -28,6 +30,11 @@ public class AppUrl {
     public static final String RepairDetail = BASEURL + "repair/detail";
     //撤回报修接口
     public static final String RepairCancel = BASEURL + "repair/cancel";
+
+    //提交评价
+    public static final String EvaluteSubmit = BASEURL + "evalute/submit";
+    //查询评价
+    public static final String EvaluteGet = BASEURL + "evalute/getDetailByOriginId";
 
     //投诉类型列表查询接口
     public static final String ComplaintType = BASEURL + "complaintType/list";
@@ -81,8 +88,14 @@ public class AppUrl {
 
     //消息通知列表查询接口
     public static final String MessageList = BASEURL + "messages/list";
+    //消息已读  { name: '报修', code: 'repaire' },
+    //                    { name: '投诉', code: 'complain' },
+    //                    { name: '访客邀约', code: 'visit' }
+    //点击跳转对应的详情页
+    public static final String MessageRead = BASEURL + "messages/readed";
 
 
-
+    //图片上传功能
+    public static final String ImageUpLoad = BASEURL + "news/upload";
 
 }

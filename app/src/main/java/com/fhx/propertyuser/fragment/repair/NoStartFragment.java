@@ -62,13 +62,13 @@ public class NoStartFragment extends BaseFragment {
         page = 1;
         switch (type) {
             case "未开始":
-                getList(page, "0");
-                break;
-            case "进行中":
                 getList(page, "1");
                 break;
+            case "进行中":
+                getList(page, "2");
+                break;
             case "已完成":
-                getList(page, "-1");
+                getList(page, "3");
                 break;
         }
 
@@ -96,13 +96,13 @@ public class NoStartFragment extends BaseFragment {
                 page = 1;
                 switch (type) {
                     case "未开始":
-                        getList(page, "0");
-                        break;
-                    case "进行中":
                         getList(page, "1");
                         break;
+                    case "进行中":
+                        getList(page, "2");
+                        break;
                     case "已完成":
-                        getList(page, "-1");
+                        getList(page, "3");
                         break;
                 }
             }
@@ -114,13 +114,13 @@ public class NoStartFragment extends BaseFragment {
                 page++;
                 switch (type) {
                     case "未开始":
-                        getList(page, "0");
-                        break;
-                    case "进行中":
                         getList(page, "1");
                         break;
+                    case "进行中":
+                        getList(page, "2");
+                        break;
                     case "已完成":
-                        getList(page, "-1");
+                        getList(page, "3");
                         break;
                 }
             }
@@ -129,7 +129,8 @@ public class NoStartFragment extends BaseFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String repairId = mList.get(position).getRepairId();
-                switch (mList.get(position).getStatus()) {
+                CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, mList.get(position).getStatus(),repairId);
+                /*switch (mList.get(position).getStatus()) {
                     case "0":
                         CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "0",repairId);
                         break;
@@ -153,7 +154,7 @@ public class NoStartFragment extends BaseFragment {
                     case "6":
                         CutToUtils.getInstance().JumpToTwo(getActivity(), RepairMsgActivity.class, "6",repairId);
                         break;
-                }
+                }*/
             }
         });
     }

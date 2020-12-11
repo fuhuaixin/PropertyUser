@@ -2,17 +2,25 @@ package com.fhx.propertyuser.base;
 
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.SyncStateContract;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+import androidx.multidex.MultiDex;
+
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.utils.JWebSocketClient;
+import com.fhx.propertyuser.utils.NotificationClickReceiver;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
@@ -27,6 +35,8 @@ import com.tencent.mmkv.MMKV;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.GsonDiskConverter;
 
+import java.net.URI;
+
 import static com.scwang.smartrefresh.layout.SmartRefreshLayout.setDefaultRefreshFooterCreator;
 import static com.scwang.smartrefresh.layout.SmartRefreshLayout.setDefaultRefreshHeaderCreator;
 
@@ -36,7 +46,9 @@ public class BaseApplication extends Application {
     public static final String APP_ID = "wx88888888";
     // IWXAPI 是第三方app和微信通信的openApi接口
     private IWXAPI api;
-
+    //推送
+    private JWebSocketClient client;
+    private URI uri;
     static {
         //设置全局的Header构建器
         setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
@@ -59,7 +71,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        //分包
+        MultiDex.install(this);
         //网络请求
         EasyHttp.init(this);//默认初始化,必须调用
 
@@ -106,6 +119,18 @@ public class BaseApplication extends Application {
             createNotificationChannel(channelId, channelName, importance);
         }
 
+        //推送 也可以做即时通讯
+       uri= URI.create("ws://192.168.10.50:8083/websocket");
+        client= new JWebSocketClient(uri) {
+            @Override
+            public void onMessage(String message) {
+                //message就是接收到的消息
+                Log.e("JWebSClientService", message);
+                sendChatMsg(message);
+            }
+        };
+        connect();
+
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -133,6 +158,37 @@ public class BaseApplication extends Application {
                 api.registerApp(APP_ID);
             }
         }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+
+    }
+
+    //WebSocket开启连接
+    private void connect(){
+        try {
+            client.connectBlocking();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private  int  requestCode=0;
+    public void sendChatMsg(String msg) {
+        requestCode++;
+        Intent intent = new Intent(this, NotificationClickReceiver.class);
+        Log.e("fhxx","这是我准备发送的"+msg +" -----  >"+requestCode);
+        intent.putExtra("msg",msg);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(this, "chat")
+                .setContentTitle("收到一条聊天消息")
+                .setContentText(msg)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.icon_logo)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo))
+                .setDefaults(Notification.GROUP_ALERT_ALL) //设置默认的提示音，振动方式，灯光
+                .setAutoCancel(true)
+                .setContentIntent(broadcast)
+                .build();
+        manager.notify(requestCode, notification);
 
     }
 

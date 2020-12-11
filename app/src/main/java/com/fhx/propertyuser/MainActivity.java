@@ -2,14 +2,12 @@ package com.fhx.propertyuser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,14 +15,13 @@ import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.fhx.propertyuser.activity.mine.PersonalAttestationActivity;
 import com.fhx.propertyuser.fragment.home.HomeFragment;
 import com.fhx.propertyuser.fragment.home.MineFragment;
 import com.fhx.propertyuser.fragment.home.ScanFragment;
 import com.fhx.propertyuser.utils.ActivityControl;
-import com.fhx.propertyuser.utils.CommonDialog;
-import com.fhx.propertyuser.utils.NotificationUtil;
+import com.fhx.propertyuser.utils.JWebSocketClient;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //其他权限
         applyWritePermission();
-
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initData();
         initListener();
+
     }
 
     /**
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         rg_home =findViewById(R.id.rg_home);
 
     }
+
 
     /**
      * 所有数据处理

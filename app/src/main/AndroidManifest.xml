@@ -196,7 +196,7 @@
         <!--推送列表页-->
         <activity android:name=".activity.NotificationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+        <receiver android:name=".utils.NotificationClickReceiver"/>
     </application>
 
 </manifest>

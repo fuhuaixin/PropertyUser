@@ -33,35 +33,39 @@ public class NoStartAdapter extends BaseQuickAdapter<RepairListBean.DataBean.Rec
         ImageView image_no_repair = helper.getView(R.id.image_no_repair);
         switch (item.getStatus()) {
             case "0":
-            case "1":
-                ll_two.setVisibility(View.GONE);
-                ll_three.setVisibility(View.GONE);
-                image_no_repair.setVisibility(View.GONE);
-                break;
-            case "3":
                 ll_two.setVisibility(View.GONE);
                 image_no_repair.setVisibility(View.VISIBLE);
                 image_no_repair.setImageResource(R.mipmap.icon_repair_recall);
                 ll_three.setVisibility(View.GONE);
                 break;
+            case "1":
+            case "2":
+            case "3":
+                ll_two.setVisibility(View.GONE);
+                ll_three.setVisibility(View.GONE);
+                image_no_repair.setVisibility(View.GONE);
+                break;
+
             case "4":
                 ll_two.setVisibility(View.VISIBLE);
                 image_no_repair.setVisibility(View.VISIBLE);
                 image_no_repair.setImageResource(R.mipmap.icon_no_repair);
                 ll_three.setVisibility(View.GONE);
+
                 break;
-            case "6":
-                ll_two.setVisibility(View.GONE);
-                image_no_repair.setVisibility(View.VISIBLE);
-                image_no_repair.setImageResource(R.mipmap.icon_repair_urge);
-                ll_three.setVisibility(View.GONE);
-                break;
-            case "2":
             case "5":
                 image_no_repair.setVisibility(View.GONE);
                 ll_two.setVisibility(View.GONE);
                 ll_three.setVisibility(View.VISIBLE);
                 break;
+
+        }
+
+        if (item.getUrgeTimes()>0){
+            ll_two.setVisibility(View.GONE);
+            image_no_repair.setVisibility(View.VISIBLE);
+            image_no_repair.setImageResource(R.mipmap.icon_repair_urge);
+            ll_three.setVisibility(View.GONE);
         }
 
         helper.addOnClickListener(R.id.ll_item);

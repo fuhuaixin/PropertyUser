@@ -123,7 +123,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
-                    android:text="问题描述"
+                    android:text="图片描述"
                     android:textColor="@color/tv21"
                     android:textSize="14sp" />
 
@@ -134,28 +134,10 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="15dp">
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_launcher" />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_launcher" />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_launcher" />
+                  <androidx.recyclerview.widget.RecyclerView
+                      android:id="@+id/recycle_image"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -299,6 +281,7 @@
                             android:src="@mipmap/icon_default_header" />
 
                         <TextView
+                            android:id="@+id/tv_dealPerson_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
@@ -307,6 +290,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_dealPerson_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"

@@ -78,28 +78,29 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
         tvTitle.setText("投诉详情");
         getMsg();
         switch (type) {
-            case "one":
+            case "0":
                 ll_one_two.setVisibility(View.VISIBLE);
                 tv_urge.setVisibility(View.VISIBLE);
                 tv_del.setVisibility(View.VISIBLE);
                 break;
-            case "two":
+            case "1":
                 tv_name.setText("wangShiFu");
                 ll_one_two.setVisibility(View.VISIBLE);
                 tv_number.setVisibility(View.VISIBLE);
                 break;
-            case "three":
+            case "4":
                 rl_three_four.setVisibility(View.VISIBLE);
                 tv_commit.setVisibility(View.VISIBLE);
                 rating_three.setVisibility(View.VISIBLE);
                 edit_eva.setVisibility(View.VISIBLE);
                 break;
-            case "four":
+            case "2":
+            case "5":
                 rl_three_four.setVisibility(View.VISIBLE);
                 rating_four.setVisibility(View.VISIBLE);
                 tv_eva.setVisibility(View.VISIBLE);
                 break;
-            case "six":
+            case "6":
                 tv_urge.setText("已催办");
                 ll_one_two.setVisibility(View.VISIBLE);
                 tv_urge.setVisibility(View.VISIBLE);

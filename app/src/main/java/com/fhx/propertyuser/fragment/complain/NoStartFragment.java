@@ -96,26 +96,29 @@ public class NoStartFragment extends BaseFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 String complainId = mList.get(position).getComplainId();
-                switch (mList.get(position).getStatus()) {
+                CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, mList.get(position).getStatus(), complainId);
+               /* switch (mList.get(position).getStatus()) {
                     case "0"://未开始
-                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "one",complainId);
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "0", complainId);
                         break;
                     case "1"://处理中
-                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "two",complainId);
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "1", complainId);
 
                         break;
                     case "4": //待评价
-                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "three",complainId);
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "4", complainId);
 
                         break;
                     case "2"://已完成
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "2", complainId);
+                        break;
                     case "5"://已评价
-                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "four",complainId);
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "5", complainId);
                         break;
                     case "6"://已催办
-                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "six",complainId);
+                        CutToUtils.getInstance().JumpToTwo(getActivity(), ComplainMsgActivity.class, "6", complainId);
                         break;
-                }
+                }*/
             }
         });
 
@@ -167,6 +170,7 @@ public class NoStartFragment extends BaseFragment {
 
     /**
      * 获取列表
+     *
      * @param status
      */
     private void getList(int status) {

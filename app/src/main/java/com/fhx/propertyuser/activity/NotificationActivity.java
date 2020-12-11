@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.adapter.NotifiListAdapter;
 import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.bean.NotificationListBean;
+import com.fhx.propertyuser.bean.SuccessBean;
+import com.fhx.propertyuser.utils.CutToUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -82,6 +85,32 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
+        notifiListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                NotificationListBean.DataBean.RecordsBean recordsBean = mList.get(position);
+                isRead(recordsBean.getMessageid());
+                switch (recordsBean.getMessageType()){
+                    case "repaire":
+                        CutToUtils.getInstance().JumpToTwo(NotificationActivity.this, RepairMsgActivity.class,
+                                "0",
+                                recordsBean.getTargetId());
+                        break;
+                    case "complain":
+                        CutToUtils.getInstance().JumpToTwo(NotificationActivity.this, ComplainMsgActivity.class,
+                                "0",
+                                recordsBean.getTargetId());
+
+                        break;
+                    case "visit":
+                        CutToUtils.getInstance().JumpToTwo(NotificationActivity.this,WebActivity.class,
+                                "邀约",
+                                AppUrl.NEWSTITLEURL+mList.get(position).getTargetId());
+
+                        break;
+                }
+            }
+        });
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +120,9 @@ public class NotificationActivity extends BaseActivity {
 
     }
 
+    /**
+     * 获取列表
+     */
     private void getList(){
         EasyHttp.get(AppUrl.MessageList)
                 .params("pageNum", String.valueOf(page))
@@ -115,6 +147,30 @@ public class NotificationActivity extends BaseActivity {
                             notifiListAdapter.notifyDataSetChanged();
                         }else {
                             ToastShort(notificationListBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 点击已读
+     */
+    private void isRead(String id){
+        EasyHttp.post(AppUrl.MessageRead)
+                .params("messageid",id)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
+                        if (successBean.isSuccess()){
+
+                        }else {
+                            ToastShort(successBean.getMsg());
                         }
                     }
                 });
