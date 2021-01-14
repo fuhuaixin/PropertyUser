@@ -102,9 +102,9 @@ public class NotificationActivity extends BaseActivity {
                                 recordsBean.getTargetId());
 
                         break;
-                    case "visit":
+                    case "news":
                         CutToUtils.getInstance().JumpToTwo(NotificationActivity.this,WebActivity.class,
-                                "邀约",
+                                "新闻",
                                 AppUrl.NEWSTITLEURL+mList.get(position).getTargetId());
 
                         break;
@@ -143,6 +143,7 @@ public class NotificationActivity extends BaseActivity {
 
                         NotificationListBean notificationListBean = JSON.parseObject(s, NotificationListBean.class);
                         if (notificationListBean.isSuccess()){
+//                            notificationListBean
                             mList.addAll(notificationListBean.getData().getRecords());
                             notifiListAdapter.notifyDataSetChanged();
                         }else {

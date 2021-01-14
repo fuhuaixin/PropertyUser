@@ -65,15 +65,15 @@ public class NoStartFragment extends BaseFragment {
         page = 1;
         switch (type) {
             case "未开始":
-                getList(0);
-
-                break;
-            case "进行中":
                 getList(1);
 
                 break;
+            case "进行中":
+                getList(2);
+
+                break;
             case "已完成":
-                getList(-1);
+                getList(3);
 
                 break;
         }
@@ -130,15 +130,15 @@ public class NoStartFragment extends BaseFragment {
                 page = 1;
                 switch (type) {
                     case "未开始":
-                        getList(0);
-
-                        break;
-                    case "进行中":
                         getList(1);
 
                         break;
+                    case "进行中":
+                        getList(2);
+
+                        break;
                     case "已完成":
-                        getList(-1);
+                        getList(3);
 
                         break;
                 }
@@ -151,15 +151,15 @@ public class NoStartFragment extends BaseFragment {
                 page++;
                 switch (type) {
                     case "未开始":
-                        getList(0);
-
-                        break;
-                    case "进行中":
                         getList(1);
 
                         break;
+                    case "进行中":
+                        getList(2);
+
+                        break;
                     case "已完成":
-                        getList(-1);
+                        getList(3);
 
                         break;
                 }

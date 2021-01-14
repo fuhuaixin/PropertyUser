@@ -189,6 +189,7 @@
         <activity
             android:name=".activity.ContactsMsgActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!--webView通用类-->
         <activity
             android:name=".activity.WebActivity"

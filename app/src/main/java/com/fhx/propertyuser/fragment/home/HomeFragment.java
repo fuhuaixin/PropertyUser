@@ -251,53 +251,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 CutToUtils.getInstance().JumpTo(getActivity(), InformListActivity.class);
                 break;
             case R.id.tv_inform:
-              /* //拉起微信
-                Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setComponent(lan.getComponent());
-                startActivity(intent);*/
-//                CutToUtils.getInstance().JumpTo(getActivity(), NotificationActivity.class);
-                downLodeImage();
+
+                CutToUtils.getInstance().JumpTo(getActivity(), NotificationActivity.class);
+
                 break;
         }
     }
-
-    private void downLodeImage(){
-        String imageUrl = "http://a3.att.hudong.com/64/52/01300000407527124482522224765.jpg";
-        EasyHttp.downLoad(imageUrl)
-                .saveName("shareImage.png")//不设置默认名字是时间戳生成的
-                .execute(new DownloadProgressCallBack<String>() {
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onError(ApiException e) {
-
-                    }
-
-                    @Override
-                    public void update(long bytesRead, long contentLength, boolean done) {
-
-                    }
-
-                    @Override
-                    public void onComplete(String path) {
-                        //下载完成，path：下载文件保存的完整路径
-                        Log.e("downLode",path);
-                        File file = new File(path);
-                        UpdatePhotoAlbumUtil.updatePhotoAlbum(getContext(),file);
-                    }
-                });
-
-    }
-
-
-
-
 
 
     /**

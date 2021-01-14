@@ -127,7 +127,9 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                 }, year, mouth, day).show();
                 break;
             case R.id.tv_commit:
-                if (TextUtils.isEmpty(et_visitor_name.getText().toString())) {
+                CutToUtils.getInstance().JumpToTwo(VisitorInviteActivity.this, WebActivity.class, "访客邀约", "http://192.168.10.68:8088/#/invitation");
+
+               /* if (TextUtils.isEmpty(et_visitor_name.getText().toString())) {
                     ToastShort("请输入访客姓名");
                     return;
                 }
@@ -143,7 +145,7 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                     ToastShort("请选择来访事由");
                     return;
                 }
-                VisitorAdd();
+                VisitorAdd();*/
                 break;
         }
     }
@@ -174,6 +176,7 @@ public class VisitorInviteActivity extends BaseActivity implements View.OnClickL
                     public void onSuccess(String s) {
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
                         if (successBean.isSuccess()) {
+                            Log.e("fhxx", successBean.getData().toString());
                             CutToUtils.getInstance().JumpToTwo(VisitorInviteActivity.this, WebActivity.class, "访客邀约", successBean.getData().toString());
 //                            finishActivity();
                         } else {

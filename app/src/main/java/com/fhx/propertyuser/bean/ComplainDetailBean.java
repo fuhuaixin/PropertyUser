@@ -9,7 +9,7 @@ public class ComplainDetailBean extends BaseBean {
 
     /**
      * success : true
-     * data : {"orderDetails":[],"evaluteInfo":null,"self":{"complainId":"35dd8845b70cefe46c14c70bbe76680a","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":null,"complainTypeName":null,"spaceId":null,"spaceNo":"202","customerPhone":"15738536995","createTime":"2020-11-05T06:10:13.000+00:00","content":"这是我的投诉没有声音","hopeResult":"我抑郁昂我想一","hopeTime":"2020-11-06T16:00:00.000+00:00","notes":null,"updateTime":null,"happenTime":"2020-11-03T16:00:00.000+00:00","status":"0"},"order":{"workOrderId":"cc05914c9e992681b48e15461a96d657","workOrderType":"1","relationId":"35dd8845b70cefe46c14c70bbe76680a","orderStatus":"0","creator":null,"createTime":"2020-11-05 14:10:13","priority":null,"executor":null,"notes":null,"endTime":null,"floor":null,"updateTime":null,"relationTableName":"t_complaint","contactNum":null}}
+     * data : {"orderDetails":[],"evaluteInfo":{"evaluteId":"e48e74fa37db7831f28f590ad4375460","createTime":"2020-12-15 15:32:00","originId":"d84aeaf388ba475a7809b6ecffdfcbf5","originType":"1","rateScore":5,"customerId":"d52e58e375d5146b1271de9bd93fd306","content":"我的意见"},"self":{"complainId":"d84aeaf388ba475a7809b6ecffdfcbf5","customerId":"d52e58e375d5146b1271de9bd93fd306","complaintTypeId":"26ac0be521e2191d4c2f8911cad8517a","complaintTypeName":null,"spaceId":null,"spaceNo":"4","customerPhone":"4","createTime":"2020-12-15 14:25:02","content":"4","hopeResult":"4","hopeTime":"2020-12-16 00:00:00","notes":null,"updateTime":"2020-12-15 15:31:57","happenTime":"2020-12-16 00:00:00","status":"5","processId":"307501","imgs":null,"urgeTimes":0},"order":{"workOrderId":"0e0d5fa1dfa828f7d6586412cfbc9908","workOrderType":"1","relationId":"d84aeaf388ba475a7809b6ecffdfcbf5","orderStatus":"4","creator":null,"createTime":"2020-12-15 14:25:02","priority":null,"executor":"f7e725ffbe9d96f452327e7fc5910915","notes":null,"endTime":null,"floor":null,"updateTime":"2020-12-15 15:01:13","relationTableName":"t_complaint","contactNum":null,"processId":"307501"}}
      */
 
     private boolean success;
@@ -43,21 +43,21 @@ public class ComplainDetailBean extends BaseBean {
     public static class DataBean {
         /**
          * orderDetails : []
-         * evaluteInfo : null
-         * self : {"complainId":"35dd8845b70cefe46c14c70bbe76680a","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":null,"complainTypeName":null,"spaceId":null,"spaceNo":"202","customerPhone":"15738536995","createTime":"2020-11-05T06:10:13.000+00:00","content":"这是我的投诉没有声音","hopeResult":"我抑郁昂我想一","hopeTime":"2020-11-06T16:00:00.000+00:00","notes":null,"updateTime":null,"happenTime":"2020-11-03T16:00:00.000+00:00","status":"0"}
-         * order : {"workOrderId":"cc05914c9e992681b48e15461a96d657","workOrderType":"1","relationId":"35dd8845b70cefe46c14c70bbe76680a","orderStatus":"0","creator":null,"createTime":"2020-11-05 14:10:13","priority":null,"executor":null,"notes":null,"endTime":null,"floor":null,"updateTime":null,"relationTableName":"t_complaint","contactNum":null}
+         * evaluteInfo : {"evaluteId":"e48e74fa37db7831f28f590ad4375460","createTime":"2020-12-15 15:32:00","originId":"d84aeaf388ba475a7809b6ecffdfcbf5","originType":"1","rateScore":5,"customerId":"d52e58e375d5146b1271de9bd93fd306","content":"我的意见"}
+         * self : {"complainId":"d84aeaf388ba475a7809b6ecffdfcbf5","customerId":"d52e58e375d5146b1271de9bd93fd306","complaintTypeId":"26ac0be521e2191d4c2f8911cad8517a","complaintTypeName":null,"spaceId":null,"spaceNo":"4","customerPhone":"4","createTime":"2020-12-15 14:25:02","content":"4","hopeResult":"4","hopeTime":"2020-12-16 00:00:00","notes":null,"updateTime":"2020-12-15 15:31:57","happenTime":"2020-12-16 00:00:00","status":"5","processId":"307501","imgs":null,"urgeTimes":0}
+         * order : {"workOrderId":"0e0d5fa1dfa828f7d6586412cfbc9908","workOrderType":"1","relationId":"d84aeaf388ba475a7809b6ecffdfcbf5","orderStatus":"4","creator":null,"createTime":"2020-12-15 14:25:02","priority":null,"executor":"f7e725ffbe9d96f452327e7fc5910915","notes":null,"endTime":null,"floor":null,"updateTime":"2020-12-15 15:01:13","relationTableName":"t_complaint","contactNum":null,"processId":"307501"}
          */
 
-        private String evaluteInfo;
+        private EvaluteInfoBean evaluteInfo;
         private SelfBean self;
         private OrderBean order;
         private List<?> orderDetails;
 
-        public String getEvaluteInfo() {
+        public EvaluteInfoBean getEvaluteInfo() {
             return evaluteInfo;
         }
 
-        public void setEvaluteInfo(String evaluteInfo) {
+        public void setEvaluteInfo(EvaluteInfoBean evaluteInfo) {
             this.evaluteInfo = evaluteInfo;
         }
 
@@ -85,29 +85,108 @@ public class ComplainDetailBean extends BaseBean {
             this.orderDetails = orderDetails;
         }
 
+        public static class EvaluteInfoBean {
+            /**
+             * evaluteId : e48e74fa37db7831f28f590ad4375460
+             * createTime : 2020-12-15 15:32:00
+             * originId : d84aeaf388ba475a7809b6ecffdfcbf5
+             * originType : 1
+             * rateScore : 5.0
+             * customerId : d52e58e375d5146b1271de9bd93fd306
+             * content : 我的意见
+             */
+
+            private String evaluteId;
+            private String createTime;
+            private String originId;
+            private String originType;
+            private double rateScore;
+            private String customerId;
+            private String content;
+
+            public String getEvaluteId() {
+                return evaluteId;
+            }
+
+            public void setEvaluteId(String evaluteId) {
+                this.evaluteId = evaluteId;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public String getOriginId() {
+                return originId;
+            }
+
+            public void setOriginId(String originId) {
+                this.originId = originId;
+            }
+
+            public String getOriginType() {
+                return originType;
+            }
+
+            public void setOriginType(String originType) {
+                this.originType = originType;
+            }
+
+            public double getRateScore() {
+                return rateScore;
+            }
+
+            public void setRateScore(double rateScore) {
+                this.rateScore = rateScore;
+            }
+
+            public String getCustomerId() {
+                return customerId;
+            }
+
+            public void setCustomerId(String customerId) {
+                this.customerId = customerId;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
+        }
+
         public static class SelfBean {
             /**
-             * complainId : 35dd8845b70cefe46c14c70bbe76680a
-             * customerId : c398c9ba5eb7e189bdd4c215132d8276
-             * complaintTypeId : null
-             * complainTypeName : null
+             * complainId : d84aeaf388ba475a7809b6ecffdfcbf5
+             * customerId : d52e58e375d5146b1271de9bd93fd306
+             * complaintTypeId : 26ac0be521e2191d4c2f8911cad8517a
+             * complaintTypeName : null
              * spaceId : null
-             * spaceNo : 202
-             * customerPhone : 15738536995
-             * createTime : 2020-11-05T06:10:13.000+00:00
-             * content : 这是我的投诉没有声音
-             * hopeResult : 我抑郁昂我想一
-             * hopeTime : 2020-11-06T16:00:00.000+00:00
+             * spaceNo : 4
+             * customerPhone : 4
+             * createTime : 2020-12-15 14:25:02
+             * content : 4
+             * hopeResult : 4
+             * hopeTime : 2020-12-16 00:00:00
              * notes : null
-             * updateTime : null
-             * happenTime : 2020-11-03T16:00:00.000+00:00
-             * status : 0
+             * updateTime : 2020-12-15 15:31:57
+             * happenTime : 2020-12-16 00:00:00
+             * status : 5
+             * processId : 307501
+             * imgs : null
+             * urgeTimes : 0
              */
 
             private String complainId;
             private String customerId;
-            private String  complaintTypeId;
-            private String complainTypeName;
+            private String complaintTypeId;
+            private String complaintTypeName;
             private String spaceId;
             private String spaceNo;
             private String customerPhone;
@@ -119,6 +198,9 @@ public class ComplainDetailBean extends BaseBean {
             private String updateTime;
             private String happenTime;
             private String status;
+            private String processId;
+            private String imgs;
+            private int urgeTimes;
 
             public String getComplainId() {
                 return complainId;
@@ -144,12 +226,12 @@ public class ComplainDetailBean extends BaseBean {
                 this.complaintTypeId = complaintTypeId;
             }
 
-            public String getComplainTypeName() {
-                return complainTypeName;
+            public String getComplaintTypeName() {
+                return complaintTypeName;
             }
 
-            public void setComplainTypeName(String complainTypeName) {
-                this.complainTypeName = complainTypeName;
+            public void setComplaintTypeName(String complaintTypeName) {
+                this.complaintTypeName = complaintTypeName;
             }
 
             public String getSpaceId() {
@@ -239,24 +321,49 @@ public class ComplainDetailBean extends BaseBean {
             public void setStatus(String status) {
                 this.status = status;
             }
+
+            public String getProcessId() {
+                return processId;
+            }
+
+            public void setProcessId(String processId) {
+                this.processId = processId;
+            }
+
+            public String getImgs() {
+                return imgs;
+            }
+
+            public void setImgs(String imgs) {
+                this.imgs = imgs;
+            }
+
+            public int getUrgeTimes() {
+                return urgeTimes;
+            }
+
+            public void setUrgeTimes(int urgeTimes) {
+                this.urgeTimes = urgeTimes;
+            }
         }
 
         public static class OrderBean {
             /**
-             * workOrderId : cc05914c9e992681b48e15461a96d657
+             * workOrderId : 0e0d5fa1dfa828f7d6586412cfbc9908
              * workOrderType : 1
-             * relationId : 35dd8845b70cefe46c14c70bbe76680a
-             * orderStatus : 0
+             * relationId : d84aeaf388ba475a7809b6ecffdfcbf5
+             * orderStatus : 4
              * creator : null
-             * createTime : 2020-11-05 14:10:13
+             * createTime : 2020-12-15 14:25:02
              * priority : null
-             * executor : null
+             * executor : f7e725ffbe9d96f452327e7fc5910915
              * notes : null
              * endTime : null
              * floor : null
-             * updateTime : null
+             * updateTime : 2020-12-15 15:01:13
              * relationTableName : t_complaint
              * contactNum : null
+             * processId : 307501
              */
 
             private String workOrderId;
@@ -273,6 +380,7 @@ public class ComplainDetailBean extends BaseBean {
             private String updateTime;
             private String relationTableName;
             private String contactNum;
+            private String processId;
 
             public String getWorkOrderId() {
                 return workOrderId;
@@ -384,6 +492,14 @@ public class ComplainDetailBean extends BaseBean {
 
             public void setContactNum(String contactNum) {
                 this.contactNum = contactNum;
+            }
+
+            public String getProcessId() {
+                return processId;
+            }
+
+            public void setProcessId(String processId) {
+                this.processId = processId;
             }
         }
     }

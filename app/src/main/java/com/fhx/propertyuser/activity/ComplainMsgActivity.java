@@ -28,7 +28,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_urge;//催办
     private TextView tv_del;//删除
     private TextView tv_number;//电话
-    private TextView tv_name;//
+    private TextView tv_name,tv_deal_name;//
     private TextView tv_eva;//评论
     private TextView tv_eventType;//投诉类型
     private TextView tv_content;//投诉内容
@@ -36,8 +36,8 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_hope_msg;//希望处理
     private TextView tv_hope_time;//希望处理时间
     private ImageView imageBack;
-    private LinearLayout ll_one_two;
-    private RelativeLayout rl_three_four;
+    private LinearLayout ll_one_two,ll_four;
+    private RelativeLayout rl_three;
     private AndRatingBar rating_three, rating_four;
     private EditText edit_eva;//输入评论
 
@@ -51,7 +51,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        type = getIntent().getStringExtra("jumpOne");
+//        type = getIntent().getStringExtra("jumpOne");
         complainId = getIntent().getStringExtra("jumpTwo");
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tv_commit = (TextView) findViewById(R.id.tv_toPay);
@@ -59,6 +59,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
         tv_del = (TextView) findViewById(R.id.tv_del);
         tv_number = (TextView) findViewById(R.id.tv_number);
         tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_deal_name = (TextView) findViewById(R.id.tv_deal_name);
         tv_eva = (TextView) findViewById(R.id.tv_eva);
         tv_eventType = (TextView) findViewById(R.id.tv_eventType);
         tv_content = (TextView) findViewById(R.id.tv_content);
@@ -67,7 +68,8 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
         tv_hope_time = (TextView) findViewById(R.id.tv_hope_time);
         imageBack = (ImageView) findViewById(R.id.image_back);
         ll_one_two = (LinearLayout) findViewById(R.id.ll_one_two);
-        rl_three_four = (RelativeLayout) findViewById(R.id.rl_three_four);
+        ll_four = (LinearLayout) findViewById(R.id.ll_four);
+        rl_three = (RelativeLayout) findViewById(R.id.rl_three);
         rating_three = (AndRatingBar) findViewById(R.id.rating_three);
         rating_four = (AndRatingBar) findViewById(R.id.rating_four);
         edit_eva = (EditText) findViewById(R.id.edit_eva);
@@ -77,36 +79,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         tvTitle.setText("投诉详情");
         getMsg();
-        switch (type) {
-            case "0":
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_urge.setVisibility(View.VISIBLE);
-                tv_del.setVisibility(View.VISIBLE);
-                break;
-            case "1":
-                tv_name.setText("wangShiFu");
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_number.setVisibility(View.VISIBLE);
-                break;
-            case "4":
-                rl_three_four.setVisibility(View.VISIBLE);
-                tv_commit.setVisibility(View.VISIBLE);
-                rating_three.setVisibility(View.VISIBLE);
-                edit_eva.setVisibility(View.VISIBLE);
-                break;
-            case "2":
-            case "5":
-                rl_three_four.setVisibility(View.VISIBLE);
-                rating_four.setVisibility(View.VISIBLE);
-                tv_eva.setVisibility(View.VISIBLE);
-                break;
-            case "6":
-                tv_urge.setText("已催办");
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_urge.setVisibility(View.VISIBLE);
-                tv_del.setVisibility(View.VISIBLE);
-                break;
-        }
+
     }
 
     @Override
@@ -114,6 +87,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
         imageBack.setOnClickListener(this);
         tv_del.setOnClickListener(this);
         tv_urge.setOnClickListener(this);
+        tv_commit.setOnClickListener(this);
 
     }
 
@@ -128,11 +102,14 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.tv_urge:
                 //催办
-                if (type.equals("six")){
+                if (urgeTimes>0){
                     ToastShort("已催办，请耐心等待");
                 }else {
                     urge();
                 }
+                break;
+            case R.id.tv_toPay:
+                EvaluteSubmit();
                 break;
         }
     }
@@ -140,6 +117,7 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
     /**
      * 获取列表详情
      */
+    int urgeTimes=-1;
     private void getMsg() {
         EasyHttp.get(AppUrl.ComplaintDetail)
                 .syncRequest(false)
@@ -154,11 +132,51 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
                     public void onSuccess(String s) {
                         complainDetailBean = JSON.parseObject(s, ComplainDetailBean.class);
                         if (complainDetailBean.isSuccess()) {
-                            tv_eventType.setText(complainDetailBean.getData().getSelf().getComplainTypeName());
+                            type =complainDetailBean.getData().getSelf().getStatus();
+                            switch (type) {
+                                case "0":
+                                case "1":
+                                    ll_one_two.setVisibility(View.VISIBLE);
+                                    tv_urge.setVisibility(View.VISIBLE);
+                                    tv_del.setVisibility(View.VISIBLE);
+                                    break;
+
+                                case "2":
+                                case "3":
+                                    rl_three.setVisibility(View.VISIBLE);
+//                                    tv_deal_name.setText(complainDetailBean);
+                                    break;
+                                case "4":
+                                    rl_three.setVisibility(View.VISIBLE);
+                                    ll_four.setVisibility(View.VISIBLE);
+                                    tv_commit.setVisibility(View.VISIBLE);
+                                    rating_three.setVisibility(View.VISIBLE);
+                                    edit_eva.setVisibility(View.VISIBLE);
+                                    break;
+
+                                case "5":
+                                    ll_four.setVisibility(View.VISIBLE);
+                                    rl_three.setVisibility(View.VISIBLE);
+                                    rating_four.setVisibility(View.VISIBLE);
+                                    tv_eva.setVisibility(View.VISIBLE);
+                                    break;
+                            }
+
+
+                            tv_eventType.setText(complainDetailBean.getData().getSelf().getComplaintTypeName());
                             tv_content.setText(complainDetailBean.getData().getSelf().getContent());
                             tv_eventTime.setText(complainDetailBean.getData().getSelf().getHappenTime());
                             tv_hope_msg.setText(complainDetailBean.getData().getSelf().getHopeResult());
                             tv_hope_time.setText(complainDetailBean.getData().getSelf().getHopeTime());
+                            urgeTimes =complainDetailBean.getData().getSelf().getUrgeTimes();
+                            if (urgeTimes>0){
+                                tv_urge.setText("已催办");
+                            }
+                            if (complainDetailBean.getData().getEvaluteInfo()!=null){
+                                rating_four.setRating((float) complainDetailBean.getData().getEvaluteInfo().getRateScore());
+                                tv_eva.setText(complainDetailBean.getData().getEvaluteInfo().getContent());
+                            }
+
                         } else {
                             ToastShort(complainDetailBean.getMsg());
                         }
@@ -220,4 +238,37 @@ public class ComplainMsgActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
     }
+
+    /**
+     * 提交评价
+     */
+    private void EvaluteSubmit(){
+        EasyHttp.post(AppUrl.EvaluteSubmit)
+                .syncRequest(false)
+                .params("originType","1")
+                .params("originId",complainId)
+                .params("rateScore",rating_three.getNumStars()+"")
+                .params("customerId",mmkv.decodeString("customerId"))
+                .params("content",edit_eva.getText().toString())
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        Log.e("error",e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
+                        if (successBean.isSuccess()){
+                            ToastShort("提交成功");
+                            finish();
+                            overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
+                        }else {
+                            successBean.getMsg();
+                        }
+                    }
+                });
+    }
+
+
 }

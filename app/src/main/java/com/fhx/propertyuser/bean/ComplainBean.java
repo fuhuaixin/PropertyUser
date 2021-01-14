@@ -9,7 +9,7 @@ public class ComplainBean extends BaseBean {
 
     /**
      * success : true
-     * data : {"records":[{"complainId":"b48b9c3eff4b18334a074b382765b955","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":"2193a1a45f15527e43510f5f9c1eaaef","complainTypeName":"物业管理","spaceId":null,"spaceNo":null,"customerPhone":null,"createTime":"2020-10-22T07:01:36.000+00:00","content":"这是我的投诉内容","hopeResult":null,"hopeTime":null,"notes":null,"updateTime":null,"happenTime":null,"status":"0"},{"complainId":"d6cf37310512aa455f01e0a070bc4b31","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":"2193a1a45f15527e43510f5f9c1eaaef","complainTypeName":"物业管理","spaceId":null,"spaceNo":"101","customerPhone":"15738531698","createTime":"2020-10-22T07:01:29.000+00:00","content":"我的投诉","hopeResult":"希望处理结果","hopeTime":"2020-10-23T16:00:00.000+00:00","notes":null,"updateTime":null,"happenTime":"2020-10-22T16:00:00.000+00:00","status":"0"}],"total":2,"size":10,"current":1,"orders":[],"optimizeCountSql":true,"hitCount":false,"countId":null,"maxLimit":null,"searchCount":true,"pages":1}
+     * data : {"records":[{"complainId":"d84aeaf388ba475a7809b6ecffdfcbf5","customerId":"d52e58e375d5146b1271de9bd93fd306","complaintTypeId":"26ac0be521e2191d4c2f8911cad8517a","complaintTypeName":"其他","spaceId":null,"spaceNo":"4","customerPhone":"4","createTime":"2020-12-15 14:25:02","content":"4","hopeResult":"4","hopeTime":"2020-12-16 00:00:00","notes":null,"updateTime":"2020-12-15 15:01:11","happenTime":"2020-12-16 00:00:00","status":"4","processId":"307501","imgs":null,"urgeTimes":0}],"total":1,"size":10,"current":1,"orders":[],"optimizeCountSql":true,"hitCount":false,"countId":null,"maxLimit":null,"searchCount":true,"pages":1}
      */
 
     private boolean success;
@@ -42,8 +42,8 @@ public class ComplainBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * records : [{"complainId":"b48b9c3eff4b18334a074b382765b955","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":"2193a1a45f15527e43510f5f9c1eaaef","complainTypeName":"物业管理","spaceId":null,"spaceNo":null,"customerPhone":null,"createTime":"2020-10-22T07:01:36.000+00:00","content":"这是我的投诉内容","hopeResult":null,"hopeTime":null,"notes":null,"updateTime":null,"happenTime":null,"status":"0"},{"complainId":"d6cf37310512aa455f01e0a070bc4b31","customerId":"c398c9ba5eb7e189bdd4c215132d8276","complaintTypeId":"2193a1a45f15527e43510f5f9c1eaaef","complainTypeName":"物业管理","spaceId":null,"spaceNo":"101","customerPhone":"15738531698","createTime":"2020-10-22T07:01:29.000+00:00","content":"我的投诉","hopeResult":"希望处理结果","hopeTime":"2020-10-23T16:00:00.000+00:00","notes":null,"updateTime":null,"happenTime":"2020-10-22T16:00:00.000+00:00","status":"0"}]
-         * total : 2
+         * records : [{"complainId":"d84aeaf388ba475a7809b6ecffdfcbf5","customerId":"d52e58e375d5146b1271de9bd93fd306","complaintTypeId":"26ac0be521e2191d4c2f8911cad8517a","complaintTypeName":"其他","spaceId":null,"spaceNo":"4","customerPhone":"4","createTime":"2020-12-15 14:25:02","content":"4","hopeResult":"4","hopeTime":"2020-12-16 00:00:00","notes":null,"updateTime":"2020-12-15 15:01:11","happenTime":"2020-12-16 00:00:00","status":"4","processId":"307501","imgs":null,"urgeTimes":0}]
+         * total : 1
          * size : 10
          * current : 1
          * orders : []
@@ -60,8 +60,8 @@ public class ComplainBean extends BaseBean {
         private int current;
         private boolean optimizeCountSql;
         private boolean hitCount;
-        private String  countId;
-        private String  maxLimit;
+        private String countId;
+        private String maxLimit;
         private boolean searchCount;
         private int pages;
         private List<RecordsBean> records;
@@ -107,19 +107,19 @@ public class ComplainBean extends BaseBean {
             this.hitCount = hitCount;
         }
 
-        public String  getCountId() {
+        public String getCountId() {
             return countId;
         }
 
-        public void setCountId(String  countId) {
+        public void setCountId(String countId) {
             this.countId = countId;
         }
 
-        public String  getMaxLimit() {
+        public String getMaxLimit() {
             return maxLimit;
         }
 
-        public void setMaxLimit(String  maxLimit) {
+        public void setMaxLimit(String maxLimit) {
             this.maxLimit = maxLimit;
         }
 
@@ -157,27 +157,30 @@ public class ComplainBean extends BaseBean {
 
         public static class RecordsBean {
             /**
-             * complainId : b48b9c3eff4b18334a074b382765b955
-             * customerId : c398c9ba5eb7e189bdd4c215132d8276
-             * complaintTypeId : 2193a1a45f15527e43510f5f9c1eaaef
-             * complainTypeName : 物业管理
+             * complainId : d84aeaf388ba475a7809b6ecffdfcbf5
+             * customerId : d52e58e375d5146b1271de9bd93fd306
+             * complaintTypeId : 26ac0be521e2191d4c2f8911cad8517a
+             * complaintTypeName : 其他
              * spaceId : null
-             * spaceNo : null
-             * customerPhone : null
-             * createTime : 2020-10-22T07:01:36.000+00:00
-             * content : 这是我的投诉内容
-             * hopeResult : null
-             * hopeTime : null
+             * spaceNo : 4
+             * customerPhone : 4
+             * createTime : 2020-12-15 14:25:02
+             * content : 4
+             * hopeResult : 4
+             * hopeTime : 2020-12-16 00:00:00
              * notes : null
-             * updateTime : null
-             * happenTime : null
-             * status : 0
+             * updateTime : 2020-12-15 15:01:11
+             * happenTime : 2020-12-16 00:00:00
+             * status : 4
+             * processId : 307501
+             * imgs : null
+             * urgeTimes : 0
              */
 
             private String complainId;
             private String customerId;
             private String complaintTypeId;
-            private String complainTypeName;
+            private String complaintTypeName;
             private String spaceId;
             private String spaceNo;
             private String customerPhone;
@@ -189,6 +192,9 @@ public class ComplainBean extends BaseBean {
             private String updateTime;
             private String happenTime;
             private String status;
+            private String processId;
+            private String imgs;
+            private int urgeTimes;
 
             public String getComplainId() {
                 return complainId;
@@ -214,35 +220,35 @@ public class ComplainBean extends BaseBean {
                 this.complaintTypeId = complaintTypeId;
             }
 
-            public String getComplainTypeName() {
-                return complainTypeName;
+            public String getComplaintTypeName() {
+                return complaintTypeName;
             }
 
-            public void setComplainTypeName(String complainTypeName) {
-                this.complainTypeName = complainTypeName;
+            public void setComplaintTypeName(String complaintTypeName) {
+                this.complaintTypeName = complaintTypeName;
             }
 
-            public String  getSpaceId() {
+            public String getSpaceId() {
                 return spaceId;
             }
 
-            public void setSpaceId(String  spaceId) {
+            public void setSpaceId(String spaceId) {
                 this.spaceId = spaceId;
             }
 
-            public String  getSpaceNo() {
+            public String getSpaceNo() {
                 return spaceNo;
             }
 
-            public void setSpaceNo(String  spaceNo) {
+            public void setSpaceNo(String spaceNo) {
                 this.spaceNo = spaceNo;
             }
 
-            public String  getCustomerPhone() {
+            public String getCustomerPhone() {
                 return customerPhone;
             }
 
-            public void setCustomerPhone(String  customerPhone) {
+            public void setCustomerPhone(String customerPhone) {
                 this.customerPhone = customerPhone;
             }
 
@@ -262,43 +268,43 @@ public class ComplainBean extends BaseBean {
                 this.content = content;
             }
 
-            public String  getHopeResult() {
+            public String getHopeResult() {
                 return hopeResult;
             }
 
-            public void setHopeResult(String  hopeResult) {
+            public void setHopeResult(String hopeResult) {
                 this.hopeResult = hopeResult;
             }
 
-            public String  getHopeTime() {
+            public String getHopeTime() {
                 return hopeTime;
             }
 
-            public void setHopeTime(String  hopeTime) {
+            public void setHopeTime(String hopeTime) {
                 this.hopeTime = hopeTime;
             }
 
-            public String  getNotes() {
+            public String getNotes() {
                 return notes;
             }
 
-            public void setNotes(String  notes) {
+            public void setNotes(String notes) {
                 this.notes = notes;
             }
 
-            public String  getUpdateTime() {
+            public String getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(String  updateTime) {
+            public void setUpdateTime(String updateTime) {
                 this.updateTime = updateTime;
             }
 
-            public String  getHappenTime() {
+            public String getHappenTime() {
                 return happenTime;
             }
 
-            public void setHappenTime(String  happenTime) {
+            public void setHappenTime(String happenTime) {
                 this.happenTime = happenTime;
             }
 
@@ -308,6 +314,30 @@ public class ComplainBean extends BaseBean {
 
             public void setStatus(String status) {
                 this.status = status;
+            }
+
+            public String getProcessId() {
+                return processId;
+            }
+
+            public void setProcessId(String processId) {
+                this.processId = processId;
+            }
+
+            public String getImgs() {
+                return imgs;
+            }
+
+            public void setImgs(String imgs) {
+                this.imgs = imgs;
+            }
+
+            public int getUrgeTimes() {
+                return urgeTimes;
+            }
+
+            public void setUrgeTimes(int urgeTimes) {
+                this.urgeTimes = urgeTimes;
             }
         }
     }

@@ -16,7 +16,6 @@ import com.fhx.propertyuser.R;
 import com.fhx.propertyuser.adapter.RepairsMsgImageAdapter;
 import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
-import com.fhx.propertyuser.bean.ComplainDetailBean;
 import com.fhx.propertyuser.bean.EvaMsgBean;
 import com.fhx.propertyuser.bean.RepairDetailBean;
 import com.fhx.propertyuser.bean.SuccessBean;
@@ -48,11 +47,11 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
     private AndRatingBar rating_three, rating_four;
     private EditText edit_eva;//输入评论
     private RecyclerView recycle_image;
-    private TextView tv_dealPerson_name,tv_dealPerson_phone;
+    private TextView tv_dealPerson_name, tv_dealPerson_phone;
 
 
     private RepairsMsgImageAdapter imageAdapter;
-    private List<String > imageList =new ArrayList<>();
+    private List<String> imageList = new ArrayList<>();
 
     private String type, repairId;
 
@@ -63,7 +62,7 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        type = getIntent().getStringExtra("jumpOne");
+//        type = getIntent().getStringExtra("jumpOne");
         repairId = getIntent().getStringExtra("jumpTwo");
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tv_commit = (TextView) findViewById(R.id.tv_toPay);
@@ -90,51 +89,10 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
     protected void initData() {
         tvTitle.setText("报修详情");
         getRepairMsg();
-        switch (type) {
-            case "1":
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_urge.setVisibility(View.VISIBLE);
-                tv_del.setVisibility(View.VISIBLE);
-                tv_urge.setText("催办");
-                break;
 
-            case "2":
-            case "3":
-                tv_name.setText("wangShiFu");
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_number.setVisibility(View.VISIBLE);
-                break;
-         /*   case "6":
-                ll_one_two.setVisibility(View.VISIBLE);
-                tv_urge.setVisibility(View.VISIBLE);
-                tv_del.setVisibility(View.VISIBLE);
-                tv_urge.setText("已催办");
-                break;
-            case "0":
 
-                ll_one_two.setVisibility(View.GONE);
-                tv_urge.setVisibility(View.GONE);
-                tv_del.setVisibility(View.GONE);
-
-                break;*/
-
-            case "4":
-                rl_three_four.setVisibility(View.VISIBLE);
-                tv_commit.setVisibility(View.VISIBLE);
-                rating_three.setVisibility(View.VISIBLE);
-                edit_eva.setVisibility(View.VISIBLE);
-                break;
-
-            case "5":
-                rl_three_four.setVisibility(View.VISIBLE);
-                rating_four.setVisibility(View.VISIBLE);
-                tv_eva.setVisibility(View.VISIBLE);
-                getEvaMsg(repairId);
-                break;
-        }
-
-        recycle_image.setLayoutManager(new GridLayoutManager(this,3));
-        imageAdapter =new RepairsMsgImageAdapter(imageList);
+        recycle_image.setLayoutManager(new GridLayoutManager(this, 3));
+        imageAdapter = new RepairsMsgImageAdapter(imageList);
         recycle_image.setAdapter(imageAdapter);
 
     }
@@ -158,9 +116,9 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.tv_urge:
                 //催办
-                if (tv_urge.getText().toString().equals("已催办")){
+                if (tv_urge.getText().toString().equals("已催办")) {
                     ToastShort("已催办，请耐心等待");
-                }else {
+                } else {
                     urge();
                 }
                 break;
@@ -174,6 +132,7 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
      * 获取报修详情
      */
     RepairDetailBean repairDetailBean;
+
     private void getRepairMsg() {
         EasyHttp.get(AppUrl.RepairDetail)
                 .syncRequest(false)
@@ -189,20 +148,52 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
                         repairDetailBean = JSON.parseObject(s, RepairDetailBean.class);
                         if (repairDetailBean.isSuccess()) {
                             RepairDetailBean.DataBean data = repairDetailBean.getData();
+                            type = repairDetailBean.getData().getSelf().getStatus();
+
+                            switch (type) {
+                                case "1":
+                                    ll_one_two.setVisibility(View.VISIBLE);
+                                    tv_urge.setVisibility(View.VISIBLE);
+                                    tv_del.setVisibility(View.VISIBLE);
+                                    tv_urge.setText("催办");
+                                    break;
+
+                                case "2":
+                                case "3":
+                                    tv_name.setText(repairDetailBean.getData().getDealPerson().getEmployeeName());
+                                    tv_number.setText(repairDetailBean.getData().getDealPerson().getPhone());
+                                    ll_one_two.setVisibility(View.VISIBLE);
+                                    tv_number.setVisibility(View.VISIBLE);
+                                    break;
+                                case "4":
+                                    rl_three_four.setVisibility(View.VISIBLE);
+                                    tv_commit.setVisibility(View.VISIBLE);
+                                    rating_three.setVisibility(View.VISIBLE);
+                                    edit_eva.setVisibility(View.VISIBLE);
+                                    break;
+
+                                case "5":
+                                    rl_three_four.setVisibility(View.VISIBLE);
+                                    rating_four.setVisibility(View.VISIBLE);
+                                    tv_eva.setVisibility(View.VISIBLE);
+                                    getEvaMsg(repairId);
+                                    break;
+                            }
+
                             tv_eventType.setText(data.getSelf().getRepairTypeName());
                             tv_content.setText(data.getSelf().getContent());
                             tv_upTime.setText(data.getSelf().getUpdatetime());
-                            if (data.getDealPerson()!=null){
+                            if (data.getDealPerson() != null) {
                                 tv_dealPerson_name.setText(data.getDealPerson().getDutyName());
                                 tv_dealPerson_phone.setText(data.getDealPerson().getPhone());
                             }
 
-                            if (data.getSelf().getUrgeTimes()>0){
+                            if (data.getSelf().getUrgeTimes() > 0) {
                                 tv_urge.setText("已催办");
                             }
 
                             String imgs = data.getSelf().getImgs();
-                            if (imgs!=null&&!imgs.equals("")){
+                            if (imgs != null && !imgs.equals("")) {
                                 String[] split = imgs.split(",");
                                 for (int i = 0; i < split.length; i++) {
                                     imageList.add(split[i]);
@@ -246,15 +237,14 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-
     /**
      * 催办
      */
-    private void urge(){
+    private void urge() {
         EasyHttp.put(AppUrl.OrderUrge)
                 .syncRequest(false)
-                .params("id",repairId)
-                .execute(new SimpleCallBack<String >() {
+                .params("id", repairId)
+                .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
                         Log.e("error", e.getMessage());
@@ -266,7 +256,7 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
                         if (successBean.isSuccess()) {
                             ToastShort("催办成功");
                             finishActivity();
-                        }else {
+                        } else {
                             ToastShort(successBean.getMsg());
 
                         }
@@ -277,28 +267,28 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
     /**
      * 提交评价
      */
-    private void EvaluteSubmit(){
+    private void EvaluteSubmit() {
         EasyHttp.post(AppUrl.EvaluteSubmit)
                 .syncRequest(false)
-                .params("originType","0")
-                .params("originId",repairId)
-                .params("rateScore",rating_three.getNumStars()+"")
-                .params("customerId",mmkv.decodeString("customerId"))
-                .params("content",edit_eva.getText().toString())
+                .params("originType", "0")
+                .params("originId", repairId)
+                .params("rateScore", rating_three.getNumStars() + "")
+                .params("customerId", mmkv.decodeString("customerId"))
+                .params("content", edit_eva.getText().toString())
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     @Override
                     public void onSuccess(String s) {
                         SuccessBean successBean = JSON.parseObject(s, SuccessBean.class);
-                        if (successBean.isSuccess()){
+                        if (successBean.isSuccess()) {
                             ToastShort("提交成功");
                             finish();
                             overridePendingTransition(R.anim.activity_out_from_animation, R.anim.activity_out_to_animation);
-                        }else {
+                        } else {
                             successBean.getMsg();
                         }
                     }
@@ -323,7 +313,7 @@ public class RepairMsgActivity extends BaseActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         EvaMsgBean evaMsgBean = JSON.parseObject(s, EvaMsgBean.class);
                         if (evaMsgBean.isSuccess()) {
-                            if (evaMsgBean.getData()==null){
+                            if (evaMsgBean.getData() == null) {
                                 return;
                             }
                             rating_four.setRating(evaMsgBean.getData().getRateScore());

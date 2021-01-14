@@ -21,14 +21,15 @@ public class ComplainAdapter extends BaseQuickAdapter<ComplainBean.DataBean.Reco
 
             helper.setVisible(R.id.image_no_repair, true);
             helper.setImageResource(R.id.image_no_repair,R.mipmap.icon_complain_no_repair);
-        }else if (item.getStatus().equals("6")){
+        }else if (item.getUrgeTimes()>0){
             helper.setVisible(R.id.image_no_repair, true);
             helper.setImageResource(R.id.image_no_repair,R.mipmap.icon_complain_urge);
         } else {
             helper.setVisible(R.id.image_no_repair, false);
         }
+
         helper.setText(R.id.tv_title, item.getContent())
-                .setText(R.id.tv_msg, item.getComplainTypeName())
+                .setText(R.id.tv_msg, item.getComplaintTypeName())
                 .setText(R.id.tv_time, item.getCreateTime());
 
         helper.addOnClickListener(R.id.ll_item);

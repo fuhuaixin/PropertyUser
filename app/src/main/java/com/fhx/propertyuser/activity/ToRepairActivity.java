@@ -213,6 +213,10 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                     ToastShort("请输入问题描述");
                     return;
                 }
+                if (tv_reserveTime.getText().toString().equals("请选择")) {
+                    ToastShort("请选择预约时间");
+                    return;
+                }
                 postRepair();
                 break;
         }
@@ -364,10 +368,9 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
         }
 
         PostRequest post = EasyHttp.post(AppUrl.RepairAdd);
-        if (!tv_reserveTime.getText().toString().equals("请选择")) {
-            post.params("reserveTime", tv_reserveTime.getText().toString());//预约事件
-        }
+
         post.syncRequest(false)
+//                .headers("Admin-Token",mmkv.decodeString("token"))
                 .params("originType", "1")//区分用户端还是物业端 0物业  1用户
                 .params("repairTypeId", eventTypeId)
                 .params("repairTypeName", tv_eventType.getText().toString())
@@ -376,6 +379,7 @@ public class ToRepairActivity extends BaseActivity implements View.OnClickListen
                 .params("content", et_content.getText().toString())//描述
                 .params("notes", et_notes.getText().toString())//地址
                 .params("customerId", mmkv.decodeString("customerId")) //用户id
+                .params("reserveTime", tv_reserveTime.getText().toString()) //预约事件
                 .params("imgs",images)
                 .execute(new SimpleCallBack<String>() {
                     @Override

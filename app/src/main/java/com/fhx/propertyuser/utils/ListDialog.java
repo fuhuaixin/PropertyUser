@@ -91,12 +91,6 @@ public class ListDialog extends Dialog implements View.OnClickListener, BaseQuic
         adapter.setOnItemChildClickListener(this);
         ViewGroup.LayoutParams layoutParams = ll_all.getLayoutParams();
 
-
-        if (chooseList.size()>3){
-            layoutParams.height =1000;
-        }else {
-            layoutParams.height =LinearLayout.LayoutParams.WRAP_CONTENT;
-        }
         ll_all.setLayoutParams(layoutParams);
     }
 

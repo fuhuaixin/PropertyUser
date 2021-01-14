@@ -6,6 +6,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 递归退出activity
+ */
 public class ActivityControl {
     private static final String TAG = "ActivityControl";
 

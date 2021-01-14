@@ -14,11 +14,14 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.SyncStateContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.multidex.MultiDex;
 
+import com.alibaba.fastjson.JSON;
 import com.fhx.propertyuser.R;
+import com.fhx.propertyuser.bean.WebSocketBean;
 import com.fhx.propertyuser.utils.JWebSocketClient;
 import com.fhx.propertyuser.utils.NotificationClickReceiver;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -28,9 +31,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.mmkv.MMKV;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.GsonDiskConverter;
@@ -42,10 +42,6 @@ import static com.scwang.smartrefresh.layout.SmartRefreshLayout.setDefaultRefres
 
 public class BaseApplication extends Application {
 
-    // APP_ID 替换为你的应用从官方网站申请到的合法appID
-    public static final String APP_ID = "wx88888888";
-    // IWXAPI 是第三方app和微信通信的openApi接口
-    private IWXAPI api;
     //推送
     private JWebSocketClient client;
     private URI uri;
@@ -102,9 +98,8 @@ public class BaseApplication extends Application {
 
         //MMKV 本地存取数据 代替sp
         String initMMKV = MMKV.initialize(this);
+        MMKV mmkv = MMKV.defaultMMKV();
         Log.e("MMKV 初始化", initMMKV);
-
-        regToWx();
 
         //设置通知类型
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -120,7 +115,7 @@ public class BaseApplication extends Application {
         }
 
         //推送 也可以做即时通讯
-       uri= URI.create("ws://192.168.10.50:8083/websocket");
+        uri= URI.create("ws://192.168.10.219:8083/websocket/"+mmkv.decodeString("customerId"));
         client= new JWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {
@@ -130,7 +125,6 @@ public class BaseApplication extends Application {
             }
         };
         connect();
-
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -141,25 +135,6 @@ public class BaseApplication extends Application {
         notificationManager.createNotificationChannel(channel);
     }
 
-    //注册到微信
-    private void regToWx() {
-        // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-
-        // 将应用的appId注册到微信
-        api.registerApp(APP_ID);
-
-        //建议动态监听微信启动广播进行注册到微信
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                // 将该app注册到微信
-                api.registerApp(APP_ID);
-            }
-        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
-
-    }
 
     //WebSocket开启连接
     private void connect(){
@@ -170,8 +145,10 @@ public class BaseApplication extends Application {
         }
     }
 
+
     private  int  requestCode=0;
     public void sendChatMsg(String msg) {
+        WebSocketBean webSocketBean = JSON.parseObject(msg, WebSocketBean.class);
         requestCode++;
         Intent intent = new Intent(this, NotificationClickReceiver.class);
         Log.e("fhxx","这是我准备发送的"+msg +" -----  >"+requestCode);
@@ -179,8 +156,8 @@ public class BaseApplication extends Application {
         PendingIntent broadcast = PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification notification = new NotificationCompat.Builder(this, "chat")
-                .setContentTitle("收到一条聊天消息")
-                .setContentText(msg)
+                .setContentTitle(webSocketBean.getType())
+                .setContentText(webSocketBean.getContent())
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.icon_logo)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo))

@@ -9,6 +9,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.provider.MediaStore;
+import android.util.Log;
+
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.DownloadProgressCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +22,50 @@ import java.net.FileNameMap;
 import java.net.URLConnection;
 
 public class UpdatePhotoAlbumUtil {
+
+
+
+
+    /**
+     * 下载网络图片
+     * url
+     * 照片名字
+     */
+    public static String downLodeImage(String imageUrl,String name){
+//        String imageUrl = "http://a3.att.hudong.com/64/52/01300000407527124482522224765.jpg";
+       String path = null;
+        EasyHttp.downLoad(imageUrl)
+                .saveName(name+".png")//不设置默认名字是时间戳生成的
+                .execute(new DownloadProgressCallBack<String>() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void update(long bytesRead, long contentLength, boolean done) {
+
+                    }
+
+                    @Override
+                    public void onComplete(String path) {
+                        //下载完成，path：下载文件保存的完整路径
+                        Log.e("downLode",path);
+//                        file = new File(path);
+                        path =path;
+                    }
+                });
+        return path;
+    }
+
+
+
+
     /**
      * 兼容android 10
      * 更新图库

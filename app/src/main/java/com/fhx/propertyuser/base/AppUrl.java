@@ -2,8 +2,8 @@ package com.fhx.propertyuser.base;
 
 public class AppUrl {
 
-    public static final String BASEURL = "http://192.168.10.50:8083/"; //测试(测试环境)
-//    public static final String BASEURL = "http://192.168.10.241:8083/"; //测试(测试环境)
+//    public static final String BASEURL = "http://192.168.10.50:8083/"; //测试(测试环境)
+    public static final String BASEURL = "http://192.168.10.241:8083/"; //测试(测试环境)
 
     //通知公告 资讯 baseUrl
     public static final String NEWSTITLEURL = "http://192.168.10.50:8055/smartbuilding_light/#/newsshow?id=";
@@ -90,7 +90,7 @@ public class AppUrl {
     public static final String MessageList = BASEURL + "messages/list";
     //消息已读  { name: '报修', code: 'repaire' },
     //                    { name: '投诉', code: 'complain' },
-    //                    { name: '访客邀约', code: 'visit' }
+    //                    { name: '新闻', code: 'news' }
     //点击跳转对应的详情页
     public static final String MessageRead = BASEURL + "messages/readed";
 

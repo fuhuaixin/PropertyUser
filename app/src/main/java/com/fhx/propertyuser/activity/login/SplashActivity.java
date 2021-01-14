@@ -1,5 +1,6 @@
 package com.fhx.propertyuser.activity.login;
 
+import android.app.Dialog;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        dialog();
         new Handler().postDelayed(new Runnable() {
             public void run() {
 //                finish();
@@ -56,6 +58,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        zLoadingDialog.dismiss();
         finish();
     }
 

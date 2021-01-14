@@ -3,15 +3,11 @@ package com.fhx.propertyuser.activity.login;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.fragment.app.DialogFragment;
 
 import com.alibaba.fastjson.JSON;
 import com.fhx.propertyuser.MainActivity;
@@ -20,7 +16,6 @@ import com.fhx.propertyuser.base.AppUrl;
 import com.fhx.propertyuser.base.BaseActivity;
 import com.fhx.propertyuser.bean.LoginBean;
 import com.fhx.propertyuser.utils.CutToUtils;
-import com.fhx.propertyuser.utils.DateAndTimeDialog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
@@ -136,14 +131,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
-//                DateAndTimeDialog dateAndTimeDialog = new DateAndTimeDialog();
-//                dateAndTimeDialog.show(getSupportFragmentManager(),"date");
 
-                if (edit_user.getText().toString().equals("")){
+                if (edit_user.getText().toString().equals("")) {
                     ToastShort("请输入手机号");
                     return;
                 }
-                if (edit_password.getText().toString().equals("")){
+                if (edit_password.getText().toString().equals("")) {
                     ToastShort("请输入密码");
                     return;
                 }
@@ -168,29 +161,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void Login(){
+    private void Login() {
         EasyHttp.post(AppUrl.Login)
                 .syncRequest(false)
-                .params("phone",edit_user.getText().toString())
-                .params("password",edit_password.getText().toString())
-                .execute(new SimpleCallBack<String >() {
+                .params("phone", edit_user.getText().toString())
+                .params("password", edit_password.getText().toString())
+                .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.e("error",e.getMessage());
+                        Log.e("error", e.getMessage());
                     }
 
                     @Override
                     public void onSuccess(String s) {
                         LoginBean loginBean = JSON.parseObject(s, LoginBean.class);
-                        if (loginBean.isSuccess()){
-                            mmkv.encode("userPhone",edit_user.getText().toString());
-                            mmkv.encode("password",edit_password.getText().toString());
-                            mmkv.encode("token",loginBean.getData().getToken());
-                            mmkv.encode("customerId",loginBean.getData().getPeople().getPeopleId());
+                        if (loginBean.isSuccess()) {
+                            mmkv.encode("userPhone", edit_user.getText().toString());
+                            mmkv.encode("password", edit_password.getText().toString());
+                            mmkv.encode("token", loginBean.getData().getToken());
+                            mmkv.encode("customerId", loginBean.getData().getPeople().getPeopleId());
                             ToastShort("登录成功");
                             finish();
                             CutToUtils.getInstance().JumpTo(LoginActivity.this, MainActivity.class);
-                        }else {
+                        } else {
                             ToastShort(loginBean.getMsg());
                         }
                     }

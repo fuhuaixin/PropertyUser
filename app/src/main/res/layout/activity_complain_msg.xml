@@ -272,7 +272,7 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_three_four"
+                android:id="@+id/rl_three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
@@ -311,6 +311,7 @@
                             android:src="@mipmap/icon_default_header" />
 
                         <TextView
+                            android:id="@+id/tv_deal_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
@@ -319,6 +320,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_deal_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -362,6 +364,8 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_four"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="8dp"
@@ -386,7 +390,7 @@
                         android:layout_marginLeft="10dp"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:rating="3"
+                        android:rating="0"
                         android:stepSize="1"
                         android:visibility="gone"
                         app:bgDrawable="@drawable/icon_star_unsel"
